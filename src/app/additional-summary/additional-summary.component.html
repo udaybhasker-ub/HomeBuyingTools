@@ -1,0 +1,10 @@
+<div class="yearly-summary-container">
+  <div>
+    <app-summary-line-chart [data]="calcData" [categories]="categories" [cumulative]="false">
+    </app-summary-line-chart>
+  </div>
+  <div>
+    <app-summary-pie-chart [data]="calcData[calcData.length-1].cumulative">
+    </app-summary-pie-chart>
+  </div>
+</div>

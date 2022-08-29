@@ -1,0 +1,109 @@
+.overview-header {
+  border: solid 1px #dddddd;
+  padding: 15px;
+  border-radius: 4px;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: row-reverse;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+
+  &.fixed {
+    position: fixed;
+    top: 0;
+    background-color: white;
+    z-index: 99;
+    box-shadow: 2px 2px 34px -10px rgb(0 0 0 / 22%);
+  }
+
+}
+
+.compare-cards-container {
+  display: flex;
+  align-items: stretch;
+  align-content: center;
+  margin-top: 50px !important;
+  flex: 1;
+  overflow: auto;
+  //width: 100%;
+  //justify-content: center;
+}
+.summary-tab-container {
+  display: flex;
+  gap: 60px;
+  align-items: center;
+}
+.tab-panel-container {
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+  .summary-tab-container {
+    display: block;
+
+    .summary-details {
+      display: none !important;
+    }
+  }
+}
+
+app-selected-summary {
+  display: block;
+}
+
+.add-to-compare-dummy-card {
+    width: 310px;
+    border-radius: 5px;
+    font-size: 1em;
+    border: dashed 1px #9f9f9f;
+    margin-left: 65px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.select-text-container {
+  width: 200px;
+  color: gray;
+}
+
+.slider-label {
+  display: flex;
+  align-items: center;
+  color: gray;
+
+  .slider-val {
+    color: black;
+    font-size: 16px;
+    margin-left: 20px;
+
+    min-width: 100px;
+  }
+  .slider-month-val {
+    font-size: 20px;
+    font-weight: bolder;
+  }
+  .month-words {
+    display: block;
+    color: gray;
+    font-size: 14px;
+  }
+}
+
+.month-slider{
+  //min-width: 600px;
+  width: 50%;
+}
+
+.at-until-select {
+  width: 55px;
+  text-align: end;
+  text-decoration: underline;
+  font-size: 16px;
+  margin-left: 20px;
+  font-weight: bold;
+}
+

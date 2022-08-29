@@ -1,0 +1,122 @@
+
+:host {
+  //margin-left: 70px;
+}
+
+.pie-chart-container {
+  display: flex;
+  justify-content: center;
+}
+
+.line-chart-container {
+  //display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media screen and (min-width: 1024px) {
+  .compact-summary-card {
+      display: none !important;
+  }
+}
+
+.add-summary-group {
+  margin-bottom: 20px;
+
+  &:first-child {
+    margin-top: 20px;
+  }
+
+  .add-summary-header {
+    font-size: 16px;
+    border-bottom: solid 1px #dfdfdf;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+    text-align: right;
+    color: gray;
+  }
+
+  .add-summary-secondary-container {
+    position: absolute;
+    right: 106px;
+    z-index: 5;
+    background-color: white;
+    width: 516px;
+  }
+
+  .add-summary-items-container {
+    display: flex;
+    gap: 25px;
+    font-size: 15px;
+    flex-direction: column;
+
+    .add-summary-item {
+      display: flex;
+      flex-direction: column;
+
+      .label {
+        color: gray;
+        font-size: 14px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+
+        .chart-icon {
+          width: 19px;
+          height: 19px;
+          font-size: 19px;
+          margin-left: 6px;
+          color: black;
+        }
+      }
+
+      .values-container {
+        display: flex;
+        margin-bottom: 6px;
+
+        .value {
+          font-size: 19px;
+          min-width: 220px;
+        }
+        .value-secondary {
+          color: gray;
+          font-size: 15px;
+        }
+      }
+      .insight-container {
+        margin-left: 30px;
+      }
+
+      .val-highlite {
+        border-radius: 4px;
+        padding: 1px 5px;
+        background-color: #999999;
+        font-weight: bold;
+        color: white;
+        margin: 0 5px;
+      }
+
+    }
+  }
+
+::ng-deep {
+  .val-desc {
+    color: gray;
+    font-size: 13px;
+  }
+  .val-primary {
+    &.val-primary-positive {
+      border-bottom: solid 3px green;
+      padding-bottom: 2px;
+    }
+    &.val-primary-negative {
+      border-bottom: solid 3px red;
+      padding-bottom: 2px;
+    }
+  }
+
+}
+}

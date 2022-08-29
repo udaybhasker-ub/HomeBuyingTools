@@ -1,0 +1,53 @@
+:host {
+  padding: 25px;
+  display: inline-block;
+}
+
+.gradient-bar-container {
+  //background: linear-gradient(0.25turn, #84fee3, #f8958e);
+  height: 35px;
+}
+
+.gradient-bar-selection-line {
+  height: 130%;
+  border-right: solid 3px #404040;
+  position: relative;
+  top: -117.5%;
+}
+
+.gradient-bar-ideal-line {
+  height: 100%;
+  border-right: solid 2px #afafaf;
+  position: relative;
+  top: -229%;
+}
+
+.labels {
+  top: -200%;
+  position: relative;
+
+  .label {
+    position: relative;
+    color: gray;
+  }
+}
+
+.top-labels {
+  top: -115%;
+  position: relative;
+
+  .label {
+    position: relative;
+    color: black;
+    font-weight: bold;
+  }
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.hide-line {
+  width: 0;
+  border: none;
+}

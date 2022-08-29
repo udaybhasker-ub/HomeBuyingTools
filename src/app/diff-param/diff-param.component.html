@@ -1,0 +1,7 @@
+<span>
+  {{ value | currency:'USD':'symbol':'1.0-0'}}
+</span>
+<mat-icon class="indicator indicator_{{reverseColors ? 'red' : 'green'}}" *ngIf="value > 0">arrow_upward
+</mat-icon>
+<mat-icon class="indicator indicator_{{reverseColors ? 'green' : 'red'}}" *ngIf="value < 0">arrow_downward
+</mat-icon>

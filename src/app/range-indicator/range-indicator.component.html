@@ -1,0 +1,12 @@
+<div #rangeIndicator class="gradient-bar-div gradient-bar-container">
+  <div class="top-labels" #labelsContainer>
+    <span class="label" #selectedLabel>{{selection + labelString}}</span>
+  </div>
+  <div #rangeLine class="gradient-bar-selection-line"></div>
+  <div #rangeIdealLine class="gradient-bar-ideal-line {{ !(ideal && ideal > -1) ? 'hide-line' : ''}}"></div>
+  <div class="labels">
+    <span class="label" #minLabel>{{range[0] + labelString}}</span>
+    <span class="label {{ ideal < 0 ? 'hidden' : ''}}" #idealLabel>{{ideal + labelString}}</span>
+    <span class="label" #maxLabel>{{range[1] + labelString}}</span>
+  </div>
+</div>

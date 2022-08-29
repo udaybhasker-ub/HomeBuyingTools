@@ -1,0 +1,55 @@
+.form-data-expansion-panel {
+  margin-bottom: 10px;
+}
+
+@-o-keyframes fadeIt {
+  0%   { background-color: #f6f6f6; }
+  50%  { background-color: #cdeef8; }
+  100% { background-color: #f6f6f6; }
+}
+@keyframes fadeIt {
+  0%   { background-color: #f6f6f6; }
+  50%  { background-color: #cdeef8;}
+  100% { background-color: #f6f6f6; }
+}
+
+input.ng-dirty {
+  //background-color: aqua !important;
+  background-image:none !important;
+         -o-animation: fadeIt 2s ease-out;
+            animation: fadeIt 2s ease-out;
+}
+
+.form-data-container {
+  p {
+    display: inline-flex;
+
+    mat-form-field {
+      width: 148px;
+
+      .mat-form-field-wrapper {
+        border-left: solid 1px #cdcdcd;
+      }
+    }
+  }
+  .submit-btn {
+    margin-left: 18px;
+  }
+}
+
+.form-add-data-container {
+  p {
+    display: inline-flex;
+
+    mat-form-field {
+      width: 175px;
+
+      .mat-form-field-wrapper {
+        border-left: solid 1px #cdcdcd;
+      }
+    }
+  }
+  .submit-btn {
+    margin-left: 18px;
+  }
+}

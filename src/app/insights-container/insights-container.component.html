@@ -1,0 +1,121 @@
+<div class="insight-container price-to-rent-bar-container">
+  <div class="header">Price-to-Rent Ratio</div>
+  <div class="content-main">
+    <div class="range-indicator-container">
+      <app-range-indicator [range]="[0, 40]" [ideal]="20" [selection]="this.insights.priceToRentRatio">
+      </app-range-indicator>
+    </div>
+    <div class="content">
+      <div class="content-item content-info-item">
+        <app-insight [insights]="insights" [insightType]="'PRR'" [cumulative]="cumulative"></app-insight>
+      </div>
+      <div class="content-item content-info-item">
+        <app-insight [insights]="insights" [selectedOptions]="selectedOptions" [insightType]="'idealPriceLimitForRent'"
+          [cumulative]="cumulative"></app-insight>
+      </div>
+      <div class="content-item content-info-item">
+        <app-insight [insights]="insights" [selectedOptions]="selectedOptions" [insightType]="'idealRentLimitForPrice'"
+          [cumulative]="cumulative"></app-insight>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="insight-container price-to-rent-bar-container">
+  <div class="header">Monthly average purchase prise = Rent</div>
+  <div class="content-main">
+    <div class="range-indicator-container">
+      <app-range-indicator [range]="[1, selectedOptions.loanLength * 12]"
+        [selection]="this.insights.atMonthRentingEqualsToBuying" [labelString]="'m'">
+      </app-range-indicator>
+    </div>
+    <div class="content">
+      <div class="content-item content-info-item">
+        <app-insight [insights]="insights" [insightType]="'atMonthRentingEqualsToBuying'" [cumulative]="cumulative">
+        </app-insight>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="insight-container price-to-rent-bar-container">
+  <div class="header">Break-even Month</div>
+  <div class="content-main">
+    <div class="range-indicator-container">
+      <app-range-indicator [range]="[1, selectedOptions.loanLength * 12]"
+        [selection]="this.insights.purchaseVsRentBreakEvenMonth" [labelString]="'m'">
+      </app-range-indicator>
+    </div>
+    <div class="content">
+      <div class="content-item content-info-item">
+        <app-insight [insights]="insights" [insightType]="'purchaseVsRentBreakEvenMonth'" [cumulative]="cumulative">
+        </app-insight>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="insight-container price-to-rent-bar-container">
+  <div class="header">Break-even Month @Downpayment</div>
+  <div class="content-main">
+    <div class="range-indicator-container">
+      <app-compact-line-chart [data]="dpInsightChartData.chartData" [activeEntries]="['No. of Months']"
+      [xAxisLabel]="'Downpayment'" [yAxisLabel]="'No of Months'">
+      </app-compact-line-chart>
+    </div>
+    <div class="content">
+      <div class="content-item content-info-item">
+        <app-insight [insightType]="'dpAvgMonthCountDiff'" [data]="dpInsightChartData">
+        </app-insight>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="insight-container price-to-rent-bar-container">
+  <div class="header">Break-even Month @APR</div>
+  <div class="content-main">
+    <div class="range-indicator-container">
+      <app-compact-line-chart [data]="aprInsightChartData.chartData" [activeEntries]="['No. of Months']"
+      [xAxisLabel]="'APR'" [yAxisLabel]="'No of Months'">
+      </app-compact-line-chart>
+    </div>
+    <div class="content">
+      <div class="content-item content-info-item">
+        <app-insight [insightType]="'aprAvgMonthCountDiff'" [data]="aprInsightChartData">
+        </app-insight>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="insight-container price-to-rent-bar-container">
+  <div class="header">Break-even Month @Price</div>
+  <div class="content-main">
+    <div class="range-indicator-container">
+      <app-compact-line-chart [data]="priceInsightChartData.chartData" [activeEntries]="['No. of Months']"
+      [xAxisLabel]="'Price'" [yAxisLabel]="'No of Months'">
+      </app-compact-line-chart>
+    </div>
+    <div class="content">
+      <div class="content-item content-info-item">
+        <app-insight [insightType]="'priceAvgMonthCountDiff'" [data]="priceInsightChartData" [selectedOptions]="selectedOptions">
+        </app-insight>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="insight-container price-to-rent-bar-container">
+  <div class="header">Price Vs APR Vs Break-even month</div>
+  <div class="content-main">
+    <div class="range-indicator-container">
+    </div>
+    <div class="content">
+      <div class="content-item content-info-item">
+        <app-insight [insightType]="'pricePercentPerAprPercent'" [data]="pricePercentPerAprPercent" [selectedOptions]="selectedOptions">
+        </app-insight>
+      </div>
+    </div>
+  </div>
+</div>

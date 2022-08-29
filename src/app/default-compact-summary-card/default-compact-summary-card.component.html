@@ -1,0 +1,30 @@
+<div class="compact-summary-card">
+  <div class="compact-card-item">
+    <div class="header">
+      Down Payment @{{selectedOptions.downpaymentPer/100 | percent : '1.2-2'}}
+    </div>
+    <div class="value">
+      -{{ data.downpayment | currency }}
+    </div>
+  </div>
+  <div class="compact-card-item">
+    <div class="header">Buyer Closing Cost</div>
+    <div class="value">+{{ data.buyerClosingCost| currency }}</div>
+  </div>
+  <div class="compact-card-item">
+    <div class="header">Loan Amount</div>
+    <div class="value">{{ data.loanAmt | currency }}</div>
+  </div>
+  <div class="compact-card-item">
+    <div class="header">Interest Rate</div>
+    <div class="value">{{ (selectedOptions.apr/100 | percent: '1.2-2') }}</div>
+  </div>
+  <div class="compact-card-item">
+    <div class="header">EMI</div>
+    <div class="value">-{{ data.emi| currency }}</div>
+  </div>
+  <div class="compact-card-item">
+    <div class="header">Other Costs</div>
+    <div class="value">-{{ data.otherCosts | currency }}</div>
+  </div>
+</div>

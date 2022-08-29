@@ -1,0 +1,156 @@
+<div class="summary-container">
+  <div *ngIf="detailsCard && selectedOptions.userSelectedItem" class="selected-pill">
+    Default
+  </div>
+  <!--{{"lastItem=" + lastItemUserSelected + ", Comp=" + selectedOptions.selectedForComparision + ", userSelected="
+  +selectedOptions.userSelectedItem}}-->
+  <button *ngIf="!detailsCard && !selectedOptions.userSelectedItem" (click)="setDefault(selectedOptions)"
+    class="compare-btn current-selected-item" mat-raised-button color="basic" title="Make it default">
+    <mat-icon>star</mat-icon>
+  </button>
+  <div *ngIf="detailsCard">
+    <button *ngIf="!selectedOptions.selectedForComparision && !lastItemUserSelected" (click)="addToCompare()"
+      class="compare-btn" mat-mini-fab color="basic">
+      <mat-icon>add</mat-icon>
+    </button>
+
+    <button *ngIf="selectedOptions.selectedForComparision && !lastItemUserSelected" (click)="removeFromCompare()"
+      class="compare-btn" [ngClass]="{'remove-btn' : detailsCard}" mat-mini-fab color="basic">
+      <mat-icon>remove</mat-icon>
+    </button>
+  </div>
+
+
+  <table [ngClass]="{'user-selected-option' : selectedOptions.userSelectedItem}">
+    <tr class="header-row">
+      <td>Down Payment
+        <span class="highlite-val">{{detailsCard ? (selectedOptions.downpaymentPer/100 | percent : '1.2-2') :
+          ''}}</span>
+      </td>
+      <td class="snippet-val-td">
+        -{{ result.downpayment | currency }}
+      </td>
+    </tr>
+    <tr class="detail-val-tr">
+      <td>Buyer Closing Cost</td>
+      <td class="snippet-val-td">+{{ result.buyerClosingCost| currency }}</td>
+    </tr>
+    <tr>
+      <td>Loan Amount</td>
+      <td class="snippet-val-td">{{ result.loanAmt | currency }}</td>
+    </tr>
+    <tr class="hr-tr">
+      <td colspan="100%">
+        <hr />
+      </td>
+    </tr>
+    <tr>
+      <td>Principal</td>
+      <td class="snippet-val-td">
+        -{{ result.principal | currency }}
+      </td>
+    </tr>
+    <tr class="header-row">
+      <td>Interest
+        <span class="highlite-val">{{detailsCard ? (selectedOptions.apr/100 | percent: '1.2-2') + ' APR' : ''}}</span>
+      </td>
+      <td class="snippet-val-td">-{{ result.interest | currency }}</td>
+    </tr>
+    <tr [hidden]="!showSummaryDetails" class="hr-tr detail-val-tr">
+      <td></td>
+      <td>
+        <hr />
+      </td>
+    </tr>
+    <tr [hidden]="!showSummaryDetails" class="detail-val-tr">
+      <td>EMI</td>
+      <td class="snippet-val-td">
+        -{{ result.emi | currency }}
+      </td>
+    </tr>
+    <tr [hidden]="!showSummaryDetails" class="hr-tr detail-val-tr">
+      <td></td>
+      <td>
+        <hr />
+      </td>
+    </tr>
+    <tr [hidden]="!showSummaryDetails" class="detail-val-tr">
+      <td>PMI</td>
+      <td class="snippet-val-td">
+        -{{ result.pmi | currency }}
+      </td>
+    </tr>
+    <tr [hidden]="!showSummaryDetails" class="detail-val-tr">
+      <td>Property Tax</td>
+      <td class="snippet-val-td">
+        -{{ result.propertyTax | currency }}
+      </td>
+    </tr>
+    <tr [hidden]="!showSummaryDetails" class="detail-val-tr">
+      <td>Home Insurance</td>
+      <td class="snippet-val-td">
+        -{{ result.homeInsuranceCost | currency }}
+      </td>
+    </tr>
+    <tr [hidden]="!showSummaryDetails" class="detail-val-tr">
+      <td>HOA</td>
+      <td class="snippet-val-td">
+        -{{ result.hoaMonthly | currency }}
+      </td>
+    </tr>
+    <tr [hidden]="!showSummaryDetails" class="detail-val-tr">
+      <td>Maintainance Cost</td>
+      <td class="snippet-val-td">
+        -{{ result.maintainanceCost | currency }}
+      </td>
+    </tr>
+    <tr [hidden]="!showSummaryDetails" class="hr-tr detail-val-tr">
+      <td></td>
+      <td>
+        <hr />
+      </td>
+    </tr>
+    <tr>
+      <td class="expand-td" (click)=" !detailsCard && showSummaryDetails = !showSummaryDetails">
+        <div>Other</div>
+        <div class="expand-btn" *ngIf="!detailsCard">
+          <mat-icon>{{showSummaryDetails ? 'arrow_drop_up' : 'arrow_drop_down'}}</mat-icon>
+        </div>
+      </td>
+      <td class="snippet-val-td">
+        -{{ result.otherCosts | currency }}
+      </td>
+    </tr>
+    <tr class="hr-tr">
+      <td></td>
+      <td>
+        <hr />
+      </td>
+    </tr>
+    <tr>
+      <td>Total (<span class="total-duration-{{cumulative ? 'y' : 'm'}}">{{cumulative ? 'Until' : 'At'}}
+          {{selectedOptions.atMonth}} month</span>)
+      </td>
+      <td class="snippet-val-td total-val">
+        {{ result.totalCost | currency }}
+      </td>
+    </tr>
+    <tr *ngIf="!detailsCard">
+      <td colspan="100%" class="compare-footer-td">
+        <button *ngIf="!selectedOptions.selectedForComparision && !lastItemUserSelected" (click)="addToCompare()"
+          class="compare-footer-btn" mat-raised-button color="basic">
+          <mat-icon>add</mat-icon> Compare
+        </button>
+
+        <button *ngIf="selectedOptions.selectedForComparision && !lastItemUserSelected" (click)="removeFromCompare()"
+          class="compare-footer-btn" [ngClass]="{'remove-compare-btn' : detailsCard}" mat-raised-button color="basic">
+          <mat-icon>remove</mat-icon> Compare
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="diff-table-container" *ngIf="diffData">
+  <app-diff-table [diffData]="diffData"></app-diff-table>
+</div>
