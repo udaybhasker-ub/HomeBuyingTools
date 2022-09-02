@@ -97,6 +97,14 @@
       </mat-icon>
     </td>
   </tr>
+  <tr>
+    <td>
+      {{diffData.maintainanceCost| currency}}
+      <mat-icon class="{{diffData.maintainanceCost > 0 ? 'up' : 'down'}}">arrow_{{diffData.maintainanceCost > 0 ?
+        'upward' : 'downward'}}
+      </mat-icon>
+    </td>
+  </tr>
   <tr class="hr-tr">
     <td>
       <hr />
