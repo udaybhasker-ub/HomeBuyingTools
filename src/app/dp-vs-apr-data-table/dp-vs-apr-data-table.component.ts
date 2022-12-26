@@ -125,7 +125,6 @@ export class DpVsAprDataTableComponent implements OnInit {
     return Array(Math.ceil((stop - start) / step + 1))
       .fill(start)
       .map((x, y) => x + y * step);
-    //return Array.from({ length: stop - start + 1 }, (_, i) => start + i).map((x, y) => x + y * step);
   }
 
   @HostListener('document:click', ['$event.path'])

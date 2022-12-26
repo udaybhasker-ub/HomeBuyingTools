@@ -18,11 +18,12 @@
     "importHelpers": true,
     "module": "commonjs",
     "esModuleInterop": true,
-    "target": "ES6",
+    "target": "ES2022",
     "lib": [
       "es2020",
       "dom"
-    ]
+    ],
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

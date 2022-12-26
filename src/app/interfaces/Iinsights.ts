@@ -6,4 +6,6 @@ export interface Iinsights {
   atMonthBuyingCostIsZero: number;
   atMonthBuyingIsBenificialThanInvesting: number;
   purchaseVsRentBreakEvenMonth: number;
+  atMonthPMIIsZero: number;
+  averagePMIAmount: number;
 }

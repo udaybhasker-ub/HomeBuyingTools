@@ -43,7 +43,8 @@ export class CalculationUtils {
       const loanBalance = cumulative.loanBalance - principal;
       cumulative.loanBalance = loanBalance;
 
-      const pmi = (cumulative.loanBalance / loanAmt) * 100 > 80 ? selectedOptions.pmiRate && loanAmt * (selectedOptions.pmiRate / (12 * 100)) : 0;
+      const mortgageBalance = cumulative.loanBalance - buyerClosingCost;
+      const pmi = selectedOptions.pmiRate && (mortgageBalance / selectedOptions.price) > 0.8 ? (loanAmt * (selectedOptions.pmiRate / (12 * 100))) : 0;
       cumulative.pmi += pmi;
 
       cumulative.propertyTax += propertyTax;
@@ -147,6 +148,8 @@ export class CalculationUtils {
     let purchaseVsRentBreakEvenMonth = -1;
     let atMonthBuyingCostIsZero = -1;
     let atMonthBuyingIsBenificialThanInvesting = -1;
+    let atMonthPMIIsZero = -1;
+    let averagePMIAmount = 0;
 
     results.forEach(month => {
       if (month.atMonth.actualBuyingCostPerMonthAVG <= month.atMonth.rentalCost && atMonthRentingEqualsToBuying < 0) {
@@ -161,7 +164,14 @@ export class CalculationUtils {
       if (month.cumulative.buyingVsRentingDiff >= 0 && purchaseVsRentBreakEvenMonth < 0) {
         purchaseVsRentBreakEvenMonth = month.cumulative.month;
       }
+      if (month.atMonth.pmi <= 0 && atMonthPMIIsZero < 0) {
+        atMonthPMIIsZero = month.atMonth.month;
+      }
     });
+
+    let monthCumulativePmiAtEnd = atMonthPMIIsZero > 0 && results[atMonthPMIIsZero - 1];
+    averagePMIAmount = (monthCumulativePmiAtEnd && monthCumulativePmiAtEnd.cumulative.pmi / atMonthPMIIsZero) || 0;
+
 
     let priceToRentRatio = 0;
     const yearResult = results[11];
@@ -185,71 +195,14 @@ export class CalculationUtils {
       atMonthRentingEqualsToBuying,
       atMonthBuyingCostIsZero,
       atMonthBuyingIsBenificialThanInvesting,
-      purchaseVsRentBreakEvenMonth
+      purchaseVsRentBreakEvenMonth,
+      atMonthPMIIsZero,
+      averagePMIAmount
     }
   }
 
-  /*static getDPInsightMatrix(selectedOptions: IOptions): ICalculatedInsights[] {
-    const step = 1;
-    let start = selectedOptions.downpaymentPer - (5 * step);
-    start = start || 0;
-    let stop = selectedOptions.downpaymentPer + (5 * step);
 
-    let range: number[] = this.getRange(start, stop, step);
-    if (range.findIndex(item => item === selectedOptions.downpaymentAmt) < 0) {
-      range.push(selectedOptions.downpaymentPer);
-    }
-    range = range.sort((a, b) => a - b);
-
-    let results = range.map(downpaymentPer => {
-      let options: IOptions = {
-        ...selectedOptions, ...{
-          downpaymentPer
-        }
-      };
-
-      const fullData: ICalculatedMonthData[] = this.calculateDataMatrix(options, options.loanLength * 12);
-      const insights: Iinsights = this.getInsights(fullData, options);
-
-      return {
-        selectedOptions: options,
-        insights
-      }
-    });
-    return results;
-  }
-
-  static getAprInsightMatrix(selectedOptions: IOptions): ICalculatedInsights[] {
-    const step = 0.5;
-    let start = selectedOptions.apr - (5 * step);
-    start = start || 0;
-    let stop = selectedOptions.apr + (5 * step);
-
-    let range: number[] = this.getRange(start, stop, step);
-    if (range.findIndex(item => item === selectedOptions.apr) < 0) {
-      range.push(selectedOptions.apr);
-    }
-    range = range.sort((a, b) => b - a);
-
-    let results = range.map(apr => {
-      let options: IOptions = {
-        ...selectedOptions, ...{
-          apr
-        }
-      };
-
-      const fullData: ICalculatedMonthData[] = this.calculateDataMatrix(options, options.loanLength * 12);
-      const insights: Iinsights = this.getInsights(fullData, options);
-
-      return {
-        selectedOptions: options,
-        insights
-      }
-    });
-    return results;
-  }*/
-
-  static getInsightMatrix(selectedOptions: IOptions, param: string, step: number, desc: boolean=false): ICalculatedInsights[] {
+  static getInsightMatrix(selectedOptions: IOptions, param: string, step: number, desc: boolean = false): ICalculatedInsights[] {
     let start = selectedOptions[param] - (5 * step);
     start = start || 0;
     let stop = selectedOptions[param] + (5 * step);
@@ -258,12 +211,12 @@ export class CalculationUtils {
     if (range.findIndex(item => item === selectedOptions[param]) < 0) {
       range.push(selectedOptions[param]);
     }
-    range = range.sort((a,b) => desc ? (b-a) : (a-b));
+    range = range.sort((a, b) => desc ? (b - a) : (a - b));
 
     let results = range.map(val => {
       let options: IOptions = {
         ...selectedOptions, ...{
-          [param] : val
+          [param]: val
         }
       };
 
