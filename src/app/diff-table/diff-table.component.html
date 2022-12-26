@@ -1,0 +1,136 @@
+<table *ngIf="diffData" class="diff-table">
+  <tr class="border-offset">
+    <td>
+      {{diffData.downpayment | currency}}
+      <mat-icon class="{{diffData.downpayment > 0 ? 'up' : 'down'}}">arrow_{{diffData.downpayment > 0 ?
+        'upward' :
+        'downward'}}</mat-icon>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{diffData.buyerClosingCost| currency}}
+      <mat-icon class="{{diffData.buyerClosingCost > 0 ? 'up' : 'down'}}">
+        arrow_{{diffData.buyerClosingCost > 0 ?
+        'upward' :
+        'downward'}}
+      </mat-icon>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{diffData.loanAmt | currency}}
+      <mat-icon class="{{diffData.loanAmt > 0 ? 'up' : 'down'}}">arrow_{{diffData.loanAmt > 0 ? 'upward'
+        :
+        'downward'}}
+      </mat-icon>
+    </td>
+  </tr>
+  <tr class="hr-tr">
+    <td>
+      <hr />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{diffData.principal | currency}}
+      <mat-icon class="{{diffData.principal > 0 ? 'up' : 'down'}}">arrow_{{diffData.principal > 0 ?
+        'upward' :
+        'downward'}}
+      </mat-icon>
+    </td>
+  </tr>
+  <tr class="border-offset">
+    <td>
+      {{diffData.interest | currency}}
+      <mat-icon class="{{diffData.interest > 0 ? 'up' : 'down'}}">arrow_{{diffData.interest > 0 ?
+        'upward' :
+        'downward'}}
+      </mat-icon>
+  </tr>
+  <tr class="hr-tr">
+    <td>
+      <hr />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{diffData.emi | currency}}
+      <mat-icon class="{{diffData.emi > 0 ? 'up' : 'down'}}">arrow_{{diffData.emi > 0 ? 'upward' :
+        'downward'}}
+      </mat-icon>
+    </td>
+  </tr>
+  <tr class="hr-tr">
+    <td>
+      <hr />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{diffData.pmi | currency}}
+      <mat-icon class="{{diffData.pmi > 0 ? 'up' : 'down'}}">arrow_{{diffData.pmi > 0 ? 'upward' :
+        'downward'}}
+      </mat-icon>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{diffData.propertyTax | currency}}
+      <mat-icon class="{{diffData.propertyTax > 0 ? 'up' : 'down'}}">arrow_{{diffData.propertyTax > 0 ?
+        'upward' :
+        'downward'}}</mat-icon>
+  </tr>
+  <tr>
+    <td>
+      {{diffData.homeInsuranceCost | currency}}
+      <mat-icon class="{{diffData.homeInsuranceCost > 0 ? 'up' : 'down'}}">arrow_{{diffData.homeInsuranceCost >
+        0 ? 'upward' :
+        'downward'}}</mat-icon>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{diffData.hoaMonthly| currency}}
+      <mat-icon class="{{diffData.hoaMonthly > 0 ? 'up' : 'down'}}">arrow_{{diffData.hoaMonthly > 0 ?
+        'upward' : 'downward'}}
+      </mat-icon>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{diffData.maintainanceCost| currency}}
+      <mat-icon class="{{diffData.maintainanceCost > 0 ? 'up' : 'down'}}">arrow_{{diffData.maintainanceCost > 0 ?
+        'upward' : 'downward'}}
+      </mat-icon>
+    </td>
+  </tr>
+  <tr class="hr-tr">
+    <td>
+      <hr />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{diffData.otherCosts | currency}}
+      <mat-icon class="{{diffData.otherCosts > 0 ? 'up' : 'down'}}">arrow_{{diffData.otherCosts > 0 ?
+        'upward' :
+        'downward'}}
+      </mat-icon>
+    </td>
+  </tr>
+  <tr class="hr-tr">
+    <td>
+      <hr />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{diffData.totalCost | currency}}
+      <mat-icon class="{{diffData.totalCost ? 'up' : 'down'}}">arrow_{{diffData.totalCost > 0 ? 'upward'
+        :
+        'downward'}}
+      </mat-icon>
+    </td>
+  </tr>
+</table>

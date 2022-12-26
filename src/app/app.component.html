@@ -1,0 +1,30 @@
+<app-app-header></app-app-header>
+<div class="app-container container">
+  <div class="form-data-row row">
+    <div class="">
+      <app-data-form></app-data-form>
+    </div>
+  </div>
+  <div class="data-table-row row">
+    <div class="">
+      <mat-expansion-panel class="form-data-expansion-panel" expanded>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Data Table
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <app-data-table-controls></app-data-table-controls>
+        <app-dp-vs-apr-data-table></app-dp-vs-apr-data-table>
+      </mat-expansion-panel>
+    </div>
+    <div class="">
+      <app-payment-overview></app-payment-overview>
+    </div>
+    <!--<div>
+      <app-additional-summary></app-additional-summary>
+    </div>-->
+  </div>
+</div>

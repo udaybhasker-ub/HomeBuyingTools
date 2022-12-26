@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-md-6 custom-slider-container">
+    <div class="label">Downpayment Range</div>
+    <div class="custom-slider">
+      <ngx-slider [(value)]="dpSliderOptions.value" [(highValue)]="dpSliderOptions.highValue"
+        [options]="dpSliderOptions.options" (userChange)="dpChanged($event)"></ngx-slider>
+    </div>
+  </div>
+  <div class="col-md-6 custom-slider-container">
+    <div class="label">APR Range</div>
+    <div class="custom-slider">
+      <ngx-slider [(value)]="aprSliderOptions.value" [(highValue)]="aprSliderOptions.highValue"
+        [options]="aprSliderOptions.options" (userChange)="aprChanged($event)"></ngx-slider>
+    </div>
+  </div>
+</div>

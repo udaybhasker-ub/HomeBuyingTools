@@ -1,0 +1,40 @@
+<div class="data-container">
+  <div class="apr-header-row">
+    <table class="apr-headers-table">
+      <tr>
+        <th class="apr-header-th" rowspan="100%">APR %</th>
+      </tr>
+      <tr>
+        <th>&nbsp;</th>
+      </tr>
+      <tr>
+        <th>&nbsp;</th>
+      </tr>
+      <tr *ngFor="let vheader of tableHeaders.apr">
+        <th>{{ vheader | number: "1.2-2" }}%</th>
+      </tr>
+    </table>
+  </div>
+  <div class="dp-header-row">
+    <table>
+      <tr>
+        <th colspan="100%">Down payment %</th>
+      </tr>
+      <tr>
+        <th *ngFor="let hHeader of tableHeaders.dp">{{ hHeader }}%</th>
+      </tr>
+      <tr *ngFor="let row of resultsArray">
+        <td class="val-item" *ngFor="let cell of row" (click)="selectedValue(cell, $event)">
+          <div class="val-item-div"
+            [ngClass]="{'user-selected': cell.userSelectedItem,  'compare-selected': cell.selectedForComparision}">
+            {{ calculateDataMatrix(cell)[0].atMonth.totalCost | currency : 'USD' : 'symbol' : '1.0-0' }}
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="popper-snippet" style="display: none;" #tooltip>
+  <ng-template #summarySnippet></ng-template>
+  <div id="arrow" data-popper-arrow></div>
+</div>

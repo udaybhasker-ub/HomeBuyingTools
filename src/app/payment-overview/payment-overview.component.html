@@ -1,0 +1,58 @@
+<div class="overview-header" #settingsHeader>
+  <div class="slider-label">
+    <mat-select class="at-until-select" [(value)]="selectedAtOption" (selectionChange)="onAtOptionChange($event)">
+      <mat-option value="At">At</mat-option>
+      <mat-option value="Until">Until</mat-option>
+    </mat-select>
+    Month
+    <span class="slider-val">
+      <span class="slider-month-val">{{atMonth}}</span>
+      <span class="slider-val-sec">/{{userSelectedOptions[0].loanLength*12}} m
+      </span>
+      <span *ngIf="atMonth > 11" class="month-words">{{atMonth | monthToWords}}</span>
+    </span>
+  </div>
+  <button mat-button (click)="moveSlider('right')">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+  <mat-slider class="month-slider" [max]="userSelectedOptions[0].loanLength * 12" [min]="sliderOptions.min"
+    [step]="sliderOptions.step" [tickInterval]="sliderOptions.tickInterval" [thumbLabel]="true" [(ngModel)]="atMonth"
+    (ngModelChange)="atMonthUpdate.next($event)" aria-labelledby="example-name-label">
+  </mat-slider>
+  <button mat-button (click)="moveSlider('left')">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+</div>
+<mat-tab-group #tabGroup>
+  <mat-tab label="Summary">
+    <div class="summary-tab-container tab-panel-container">
+      <app-summary-card class="summary-details" *ngFor="let data of userSelectedOptions; let i = index"
+        [selectedOptions]="data" [atMonth]="atMonth" [cumulative]="cumulative" [diffData]="" [detailsCard]="true"
+        [lastItemUserSelected]="true" [ngClass]="{'selected-option' : data.userSelectedItem}">
+      </app-summary-card>
+      <app-selected-summary class="" *ngFor="let data of userSelectedOptions;" [selectedOptions]="data"
+        [cumulative]="cumulative" [atMonth]="atMonth">
+      </app-selected-summary>
+    </div>
+  </mat-tab>
+  <mat-tab label="Camparision">
+    <div class="compare-cards-container tab-panel-container">
+      <app-summary-card *ngFor="let data of comparedItems; let i = index" [selectedOptions]="data" [atMonth]="atMonth"
+        [cumulative]="cumulative" [diffData]="diffTableData[i]" [detailsCard]="true"
+        [lastItemUserSelected]="comparedItems.length === 1 && data.userSelectedItem" class="summary-details"
+        [ngClass]="{'selected-option' : data.userSelectedItem}">
+      </app-summary-card>
+      <div *ngIf="comparedItems.length === 1" class="add-to-compare-dummy-card">
+        <div class="select-text-container">
+          <mat-icon>add</mat-icon>
+          <div>Select an item from the table to compare</div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Ammortization">
+    <div class="compare-cards-container tab-panel-container">
+     <app-ammortization-table [results]="allCalculatedData"></app-ammortization-table>
+    </div>
+  </mat-tab>
+</mat-tab-group>

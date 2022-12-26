@@ -1,0 +1,138 @@
+<div *ngIf="insightType === 'atMonthBuyingCostIsZero'" class="insight-container-inner">
+  <span class="info-icon">
+    <mat-icon>info</mat-icon>
+  </span>
+  <span class="insight-text-content">
+    After {{insights.atMonthBuyingCostIsZero | monthToWords}} (or <a routerLink=""
+      (click)="onMonthClick(insights.atMonthBuyingCostIsZero)">{{insights.atMonthBuyingCostIsZero}}</a> months), you
+    won't have
+    to pay for housing.
+  </span>
+</div>
+
+<div *ngIf="insightType === 'atMonthRentingEqualsToBuying'" class="insight-container-inner">
+  <span class="info-icon">
+    <mat-icon>info</mat-icon>
+  </span>
+  <span class="insight-text-content">
+    Your monthly rent will exceed the cost of the monthly purchase cost after {{insights.atMonthRentingEqualsToBuying |
+    monthToWords}} (or
+    <a routerLink=""
+      (click)="onMonthClick(insights.atMonthRentingEqualsToBuying)">{{insights.atMonthRentingEqualsToBuying}}</a>
+    months).
+  </span>
+</div>
+
+<div *ngIf="insightType === 'purchaseVsRentBreakEvenMonth'" class="insight-container-inner">
+  <span class="info-icon">
+    <mat-icon>info</mat-icon>
+  </span>
+  <span class="insight-text-content">
+    If you sell your house before {{insights.purchaseVsRentBreakEvenMonth | monthToWords}} (or
+    <a routerLink=""
+      (click)="onMonthClick(insights.purchaseVsRentBreakEvenMonth, true)">{{insights.purchaseVsRentBreakEvenMonth}}</a>
+    months), you will lose money compared to renting.
+  </span>
+</div>
+
+<div *ngIf="insightType === 'atMonthBuyingIsBenificialThanInvesting'" class="insight-container-inner">
+  <span class="info-icon">
+    <mat-icon>info</mat-icon>
+  </span>
+  <span class="insight-text-content">
+    Your purchase will be better for you than investing if you stay in the house for
+    {{insights.atMonthBuyingIsBenificialThanInvesting | monthToWords}} (or <a routerLink=""
+      (click)="onMonthClick(insights.atMonthBuyingIsBenificialThanInvesting, true)">{{insights.atMonthBuyingIsBenificialThanInvesting}}</a>
+    months).
+  </span>
+</div>
+
+<div *ngIf="insightType === 'PRR'" class="insight-container-inner">
+  <span class="info-icon">
+    <mat-icon>info</mat-icon>
+  </span>
+  <span class="insight-text-content">
+    Your Price-to-Rent Ratio is <span class="highlite-val">{{this.insights.priceToRentRatio | number:'1.0-0'}}</span>,
+    the ideal ratio is <span class="highlite-val">20</span>
+  </span>
+</div>
+
+<div *ngIf="insightType === 'idealPriceLimitForRent'" class="insight-container-inner">
+  <span class="info-icon">
+    <mat-icon>info</mat-icon>
+  </span>
+  <span class="insight-text-content">
+    In ralation to the selected monthly rent:
+    <span class="highlite-val">{{selectedOptions.additionalOptions.rentalAmt |
+      currency:'USD':'symbol':'1.0-0'}}</span>, ideal purchase price is
+    <span class="highlite-val"> &lt;{{insights.idealPriceLimitForRent |
+      currency:'USD':'symbol':'1.0-0'}}.</span>
+  </span>
+</div>
+
+<div *ngIf="insightType === 'idealRentLimitForPrice'" class="insight-container-inner">
+  <span class="info-icon">
+    <mat-icon>info</mat-icon>
+  </span>
+  <span class="insight-text-content">
+    In ralation to the selected purchase price:
+    <span class="highlite-val">{{selectedOptions.price | currency:'USD':'symbol':'1.0-0'}}</span>, monthly rent
+    would have to be
+    <span class="highlite-val">>{{insights.idealRentLimitForPrice | currency:'USD':'symbol':'1.0-0'}}.</span>
+  </span>
+</div>
+
+<div *ngIf="data && data.param === 'downpaymentPer'" class="insight-container-inner">
+  <span class="info-icon">
+    <mat-icon>info</mat-icon>
+  </span>
+  <span class="insight-text-content">
+    Each <span class="highlite-val">{{data.step}}%</span> increase in the down payment reduces the break even term by,
+    on average, <span class="highlite-val">{{data.avgDeltaDiff | number:'1.0-1'}}</span> month(s).
+  </span>
+</div>
+
+<div *ngIf="data && data.param === 'apr'" class="insight-container-inner">
+  <span class="info-icon">
+    <mat-icon>info</mat-icon>
+  </span>
+  <span class="insight-text-content">
+    For every <span class="highlite-val">{{data.step}}%</span> decrease in interest rates, <span
+      class="highlite-val">{{data.avgDeltaDiff | number:'1.0-1'}}</span> break-even month(s) are on average shortened.
+  </span>
+</div>
+
+<div *ngIf="data && data.param === 'price'" class="insight-container-inner">
+  <span class="info-icon">
+    <mat-icon>info</mat-icon>
+  </span>
+  <span class="insight-text-content">
+    On average <span class="highlite-val">{{data.avgDeltaDiff | number:'1.1-1'}}</span> break-even month(s) are cut
+    short for every <span class="highlite-val">{{data.step | currency}}</span> (or <span
+      class="highlite-val">{{(data.step / selectedOptions.price) * 100 | number: '1.0-1'}}%</span>) drop in price.
+  </span>
+</div>
+
+<div *ngIf="insightType === 'averagePMIAmount'" class="insight-container-inner">
+  <span class="info-icon">
+    <mat-icon>info</mat-icon>
+  </span>
+  <span class="insight-text-content">
+    On average <span class="highlite-val">{{insights.averagePMIAmount | currency }}</span> per month goes towards PMI
+    until
+    {{insights.atMonthPMIIsZero | monthToWords}} (or <a routerLink=""
+      (click)="onMonthClick(insights.atMonthPMIIsZero, true)">{{insights.atMonthPMIIsZero}}</a>
+    months).
+  </span>
+</div>
+
+<div *ngIf="insightType === 'pricePercentPerAprPercent'" class="insight-container-inner">
+  <span class="info-icon">
+    <mat-icon>info</mat-icon>
+  </span>
+  <span class="insight-text-content">
+    Regarding the month of break-even, <span class="highlite-val">1% APR</span> is <span
+      class="highlite-val">{{(selectedOptions.price * (data/100)) | currency}}</span> or <span
+      class="highlite-val">{{data | number: '1.0-2'}}%</span> of the purchase price.
+  </span>
+</div>
