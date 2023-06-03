@@ -2,12 +2,7 @@
   <div *ngIf="detailsCard && selectedOptions.userSelectedItem" class="selected-pill">
     Default
   </div>
-  <!--{{"lastItem=" + lastItemUserSelected + ", Comp=" + selectedOptions.selectedForComparision + ", userSelected="
-  +selectedOptions.userSelectedItem}}-->
-  <button *ngIf="!detailsCard && !selectedOptions.userSelectedItem" (click)="setDefault(selectedOptions)"
-    class="compare-btn current-selected-item" mat-raised-button color="basic" title="Make it default">
-    <mat-icon>star</mat-icon>
-  </button>
+  
   <div *ngIf="detailsCard">
     <button *ngIf="!selectedOptions.selectedForComparision && !lastItemUserSelected" (click)="addToCompare()"
       class="compare-btn" mat-mini-fab color="basic">
@@ -33,7 +28,11 @@
     </tr>
     <tr class="detail-val-tr">
       <td>Buyer Closing Cost</td>
-      <td class="snippet-val-td">+{{ result.buyerClosingCost| currency }}</td>
+      <td class="snippet-val-td">-{{ result.buyerClosingCost| currency }}</td>
+    </tr>
+    <tr class="detail-val-tr">
+      <td>Out of pocket Cash</td>
+      <td class="snippet-val-td">-{{ (result.downpayment + result.buyerClosingCost) | currency }}</td>
     </tr>
     <tr>
       <td>Loan Amount</td>
@@ -62,9 +61,9 @@
         <hr />
       </td>
     </tr>
-    <tr [hidden]="!showSummaryDetails" class="detail-val-tr">
+    <tr [hidden]="!showSummaryDetails" class="header-row">
       <td>EMI</td>
-      <td class="snippet-val-td">
+      <td class="snippet-val-td" style="font-weight: bold">
         -{{ result.emi | currency }}
       </td>
     </tr>
@@ -113,7 +112,7 @@
     <tr>
       <td class="expand-td" (click)=" !detailsCard && showSummaryDetails = !showSummaryDetails">
         <div>Other</div>
-        <div class="expand-btn" *ngIf="!detailsCard">
+        <div class="expand-btn" *ngIf="!detailsCard && false">
           <mat-icon>{{showSummaryDetails ? 'arrow_drop_up' : 'arrow_drop_down'}}</mat-icon>
         </div>
       </td>
@@ -121,13 +120,7 @@
         -{{ result.otherCosts | currency }}
       </td>
     </tr>
-    <tr class="hr-tr">
-      <td></td>
-      <td>
-        <hr />
-      </td>
-    </tr>
-    <tr>
+    <tr class="total-val-tr">
       <td>Total (<span class="total-duration-{{cumulative ? 'y' : 'm'}}">{{cumulative ? 'Until' : 'At'}}
           {{selectedOptions.atMonth}} month</span>)
       </td>
@@ -136,14 +129,20 @@
       </td>
     </tr>
     <tr *ngIf="!detailsCard">
+      <td>
+        <button *ngIf="!detailsCard && !selectedOptions.userSelectedItem" (click)="setDefault(selectedOptions)"
+        class="footer-btn default-btn" mat-raised-button color="primary" title="Make it default">
+          <mat-icon>star</mat-icon> Make Default
+        </button>
+      </td>
       <td colspan="100%" class="compare-footer-td">
         <button *ngIf="!selectedOptions.selectedForComparision && !lastItemUserSelected" (click)="addToCompare()"
-          class="compare-footer-btn" mat-raised-button color="basic">
+          class="footer-btn add-to-compare-btn" mat-raised-button color="accent">
           <mat-icon>add</mat-icon> Compare
         </button>
 
         <button *ngIf="selectedOptions.selectedForComparision && !lastItemUserSelected" (click)="removeFromCompare()"
-          class="compare-footer-btn" [ngClass]="{'remove-compare-btn' : detailsCard}" mat-raised-button color="basic">
+          class="footer-btn" [ngClass]="{'remove-compare-btn' : detailsCard}" mat-stroked-button color="accent">
           <mat-icon>remove</mat-icon> Compare
         </button>
       </td>

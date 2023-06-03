@@ -15,8 +15,24 @@
     box-shadow: 2px 2px 34px -10px rgb(0 0 0 / 22%);
   }
 
+  .arrow-btn {
+    align-self: center;
+    padding: 0;
+    margin: 0 20px;
+    min-width: 40px;
+
+    @media screen and (max-width: 768px) {
+      margin: 0 10px;
+      min-width: 16px;
+    }
+
+    mat-icon {
+      margin-right: 0;
+    }
+  }
+
   @media screen and (max-width: 768px) {
-    .mat-slider {
+    .ngx-slider {
       display: none;
     }
 
@@ -100,7 +116,11 @@ app-selected-summary {
     font-size: 16px;
     margin-left: 20px;
 
-    min-width: 100px;
+    min-width: 125px;
+
+    @media screen and (max-width: 768px) {
+      min-width: 96px;
+    }
   }
 
   .slider-month-val {
@@ -122,19 +142,45 @@ app-selected-summary {
     color: gray;
     font-size: 14px;
     text-align: center;
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
   }
 }
 
 .month-slider {
   //min-width: 600px;
   width: 50%;
+
+  ::ng-deep {
+    .ngx-slider-pointer {
+      width: 25px;
+      height: 25px;
+      top: -11px;
+
+      &:after {
+        width: 5.5px;
+        height: 5.5px;
+        top: 10px;
+        left: 10px;
+      }
+    }
+
+    .ngx-slider-bubble {
+      bottom: 13px;
+      padding: 1px 7px;
+      font-size: 12px;
+  }
+  }
 }
 
 .at-until-select {
-  width: 55px;
+  width: 90px;
   text-align: end;
   text-decoration: underline;
-  font-size: 16px;
-  margin-left: 20px;
+  font-size: 14px;
+  margin-left: 5px;
+  margin-right: 5px;
   font-weight: bold;
 }

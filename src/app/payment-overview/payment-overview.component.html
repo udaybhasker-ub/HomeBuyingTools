@@ -6,20 +6,19 @@
     </mat-select>
     Month
     <span class="slider-val">
-      <input class="slider-month-val" [(ngModel)]="atMonth" (focus)="onInputFocus($event)" />
+      <input class="slider-month-val" ngDefaultControl [(ngModel)]="atMonth" (focus)="onInputFocus($event)" />
       <span class="slider-val-sec">/{{userSelectedOptions[0]?.loanLength*12}} m
       </span>
       <span *ngIf="atMonth > 11" class="month-words">{{atMonth | monthToWords}}</span>
     </span>
   </div>
-  <button mat-button (click)="moveSlider('right')">
+  <button mat-button class="arrow-btn" (click)="moveSlider('right')">
     <mat-icon>keyboard_arrow_right</mat-icon>
   </button>
-  <mat-slider class="month-slider" [max]="userSelectedOptions[0]?.loanLength * 12" [min]="sliderOptions.min"
-    [step]="sliderOptions.step" [tickInterval]="sliderOptions.tickInterval" [thumbLabel]="true" [(ngModel)]="atMonth"
-    (ngModelChange)="atMonthUpdate.next($event)" aria-labelledby="example-name-label">
-  </mat-slider>
-  <button mat-button (click)="moveSlider('left')">
+  <ngx-slider class="month-slider" *ngIf="true" [(value)]="atMonth" [options]="sliderOptions"
+    (valueChange)="atMonthUpdate.next(atMonth)" aria-labelledby="example-name-label">
+  </ngx-slider>
+  <button mat-button class="arrow-btn" (click)="moveSlider('left')">
     <mat-icon>keyboard_arrow_left</mat-icon>
   </button>
 </div>

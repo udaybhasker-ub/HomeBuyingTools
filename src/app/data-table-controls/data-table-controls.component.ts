@@ -1,4 +1,4 @@
-import { ChangeContext, LabelType, PointerType } from '@angular-slider/ngx-slider';
+import { ChangeContext, LabelType, PointerType } from 'ngx-slider-v2';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ISliderData } from '../interfaces/ISliderData';
 import { ISliderOptions } from '../interfaces/ISliderOptions';

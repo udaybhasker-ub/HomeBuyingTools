@@ -127,11 +127,15 @@ export class DpVsAprDataTableComponent implements OnInit {
       .map((x, y) => x + y * step);
   }
 
-  @HostListener('document:click', ['$event.path'])
-  public onGlobalClick(targetElementPath: Array<any>) {
-    if (!targetElementPath) return;
-    let compareBtn = targetElementPath.find(e => e.classList && (e.classList.contains("compare-btn") || e.classList.contains("compare-footer-btn")));
-    let elementRefInPath = targetElementPath.find(e => e === this.tooltip.element.nativeElement);
+  @HostListener('document:click', ['$event'])
+  public onGlobalClick(event: Event) {
+    const path = event.composedPath();
+    if (!path) return;
+    let compareBtn = path.find((e: HTMLElement) => {
+      return e.classList && 
+      (e.classList.contains("compare-btn") || e.classList.contains("compare-footer-btn"));
+    });
+    let elementRefInPath = path.find(e => e === this.tooltip.element.nativeElement);
     if (compareBtn || !elementRefInPath) {
       this.closePopper();
     }

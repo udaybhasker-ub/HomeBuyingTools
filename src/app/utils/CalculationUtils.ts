@@ -17,7 +17,7 @@ export class CalculationUtils {
 
     const downpayment = (selectedOptions.price && selectedOptions.downpaymentPer > 0 && selectedOptions.price * (selectedOptions.downpaymentPer / 100)) || 0;
     const buyerClosingCost = selectedOptions.price * (selectedOptions.buyerClosingCostsPer / 100);
-    const loanAmt = (selectedOptions.price || 0) + buyerClosingCost - downpayment;
+    const loanAmt = (selectedOptions.price || 0) - downpayment;
     const propertyTax = selectedOptions.propertyTaxPer && selectedOptions.price * (selectedOptions.propertyTaxPer / (12 * 100));
     const homeInsuranceCost = selectedOptions.homeInsAmt && selectedOptions.homeInsAmt / 12;
     const otherCostsNoPMI = (propertyTax || 0) + (homeInsuranceCost || 0) + (selectedOptions.hoaMonthly || 0) + (selectedOptions.maintainanceCostMonthly || 0);

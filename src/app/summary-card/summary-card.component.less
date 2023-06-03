@@ -8,24 +8,32 @@
 
   td {
     text-align: left;
-    padding: 5px 7px;
+    padding: 2px 8px;
     font-size: 0.9em;
     border: solid 0px #ededed;
-    font-weight: bold;
+    //font-weight: bold;
 
     &.snippet-val-td {
       text-align: right;
       font-weight: initial;
-      font-size: 1em;
+      font-size: 0.9em;
+      letter-spacing: 1px;
     }
   }
 
   .hr-tr {
     td {
-      padding: 0px;
+      padding: 0px !important;
     }
     hr {
-      margin: 5px 0;
+      margin: 8px 0 !important;
+      border-top: 1px solid;
+    }
+  }
+
+  .total-val-tr {
+    td {
+      margin-top: 12px;
     }
   }
 
@@ -85,23 +93,22 @@
     }
   }
 
-  button.compare-footer-btn {
+  button.footer-btn {
     height: 25px;
-    font-size: 12px;
+    font-size: 0.85em;
     line-height: 1px;
-    background-color: #3ab9f0;
-    color: white;
     padding: 0 9px;
 
+    .mat-icon {
+      margin-right: 2px;
+      height: 14px;
+      width: 14px;
+      font-size: 14px;
+    }
+
     &.remove-compare-btn {
-      top: -12px;
-      right: -10px;
-      background-color: white;
-      color: gray;
 
       &:hover {
-        background-color: #3ab9f0;
-        color: white;
         opacity: 100%;
       }
     }
@@ -121,6 +128,7 @@
 :host.summary-details {
   display: inline-flex;
   margin: 20px 0;
+  flex: none;
 
 
   .summary-container {
@@ -152,11 +160,12 @@
       }
 
       .highlite-val {
-        background-color: #247ca4;
-        color: white;
+        border: solid 1px #4050b5;
+        color: #4050b5;
         padding: 4px 4px;
         border-radius: 4px;
         margin-left: 5px;
+        font-size: 0.8em;
       }
 
       .total-val {
@@ -176,6 +185,13 @@
       @header-highlite-color-faded: fade(@header-highlite-color, 90%);
 
       .header-row {
+        td:first-of-type {
+          //text-decoration: underline;
+          //border-bottom: solid 1px @header-highlite-color-faded;
+        }
+      }
+      
+      .header-row-1 {
         border: solid 3px #bebebe;
         border-radius: 4px;
         border-top: solid 1px #bebebe;
@@ -194,7 +210,7 @@
     }
 
     .selected-pill {
-      background-color: #ff5a5a;
+      background-color: #4050b5;
       color: #ffffff;
       display: inline-block;
       position: absolute;
@@ -207,12 +223,13 @@
   .diff-table-container{
     //box-shadow: 2px 2px 34px -10px rgb(0 0 0 / 22%);
     display: inline-block;
-    border-radius: 8px;
+    border-radius: 5px;
     font-size: 1em;
     border: solid 1px #e4e4e4;
     background-color: #fbfeff;
     font-weight: bolder;
     //min-width: 142px;
+    flex: none;
 
     &:empty {
       border: none;

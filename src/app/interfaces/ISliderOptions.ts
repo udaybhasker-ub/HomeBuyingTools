@@ -1,4 +1,4 @@
-import { Options } from "@angular-slider/ngx-slider/options";
+import { Options } from "ngx-slider-v2/options";
 
 export interface ISliderOptions {
   value: number;

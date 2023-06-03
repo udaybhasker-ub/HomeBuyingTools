@@ -11,7 +11,7 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Home Price</mat-label>
-          <input matInput #input type="number" formControlName="price" name="price" min="0" step="5000"
+          <input matInput #input type="number" ngDefaultControl formControlName="price" name="price" min="0" step="5000"
             placeholder="500000" />
           <span matSuffix>%</span>
         </mat-form-field>
@@ -19,7 +19,7 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Loan Length</mat-label>
-          <input matInput #input type="number" formControlName="loanLength" name="loanLength" min="0" max="30" step="5"
+          <input matInput #input type="number" ngDefaultControl formControlName="loanLength" name="loanLength" min="0" max="30" step="5"
             placeholder="30" />
           <span matSuffix>%</span>
         </mat-form-field>
@@ -27,21 +27,21 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>APR</mat-label>
-          <input matInput #input type="number" formControlName="apr" name="apr" min="0" max="10" step="0.25"
+          <input matInput #input type="number" ngDefaultControl formControlName="apr" name="apr" min="0" max="10" step="0.25"
             placeholder="10" />
           <span matSuffix>%</span>
         </mat-form-field>
       </p>
       <p>
         <mat-form-field appearance="fill">
-          <mat-label>Downpayment %</mat-label>
-          <input matInput #input type="number" formControlName="downpaymentPer" name="downpaymentPer" min="0" step="1"
+          <mat-label>Downpayment</mat-label>
+          <input matInput #input type="number" ngDefaultControl formControlName="downpaymentPer" name="downpaymentPer" min="0" step="1"
             placeholder="10" [class.updated-form-field]="entryForm.get('downpaymentPer').dirty" />
           <span matSuffix>%</span>
         </mat-form-field>
         <mat-form-field appearance="fill">
-          <mat-label>Downpayment $</mat-label>
-          <input matInput #input type="number" formControlName="downpaymentAmt" name="downpaymentAmt" min="0"
+          <mat-label>Downpayment</mat-label>
+          <input matInput #input type="number" ngDefaultControl formControlName="downpaymentAmt" name="downpaymentAmt" min="0"
             step="5000" [class.updated-form-field]="entryForm.get('downpaymentAmt').dirty" />
           <span matSuffix>$</span>
         </mat-form-field>
@@ -49,7 +49,7 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Property Tax Rate</mat-label>
-          <input matInput #input type="number" formControlName="propertyTaxPer" name="propertyTaxPer" min="0" max="10"
+          <input matInput #input type="number" ngDefaultControl formControlName="propertyTaxPer" name="propertyTaxPer" min="0" max="10"
             step="0.1" placeholder="1" />
           <span matSuffix>%</span>
         </mat-form-field>
@@ -57,13 +57,13 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Home Insurance Rate</mat-label>
-          <input matInput #input type="number" formControlName="homeInsRate" name="homeInsRate" min="0" max="10"
+          <input matInput #input type="number" ngDefaultControl formControlName="homeInsRate" name="homeInsRate" min="0" max="10"
             step="0.1" placeholder="1" />
           <span matSuffix>%</span>
         </mat-form-field>
         <mat-form-field appearance="fill">
-          <mat-label>Home Insurance $</mat-label>
-          <input matInput #input type="number" formControlName="homeInsAmt" name="homeInsAmt" min="0" placeholder="0"
+          <mat-label>Home Insurance</mat-label>
+          <input matInput #input type="number" ngDefaultControl formControlName="homeInsAmt" name="homeInsAmt" min="0" placeholder="0"
             step="100" />
           <span matSuffix>$/Yr</span>
         </mat-form-field>
@@ -71,7 +71,7 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>PMI Rate</mat-label>
-          <input matInput #input type="number" formControlName="pmiRate" name="pmiRate" min="0" max="10" step="0.1"
+          <input matInput #input type="number" ngDefaultControl formControlName="pmiRate" name="pmiRate" min="0" max="10" step="0.1"
             placeholder="0.75" />
           <span matSuffix>%</span>
         </mat-form-field>
@@ -79,23 +79,23 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>HOA (Monthly)</mat-label>
-          <input matInput #input type="number" formControlName="hoaMonthly" name="hoaMonthly" min="0" max="1000"
+          <input matInput #input type="number" ngDefaultControl formControlName="hoaMonthly" name="hoaMonthly" min="0" max="1000"
             step="50" placeholder="50" />
           <span matSuffix>$</span>
         </mat-form-field>
       </p>
       <p>
         <mat-form-field appearance="fill">
-          <mat-label>Maintainance Cost (Monthly)</mat-label>
-          <input matInput #input type="number" formControlName="maintainanceCostMonthly" name="maintainanceCostMonthly"
+          <mat-label>Maintainance(Monthly)</mat-label>
+          <input matInput #input type="number" ngDefaultControl formControlName="maintainanceCostMonthly" name="maintainanceCostMonthly"
             min="0" max="1000" step="50" placeholder="250" />
           <span matSuffix>$</span>
         </mat-form-field>
       </p>
       <p>
         <mat-form-field appearance="fill">
-          <mat-label>Buyer Closing Costs %</mat-label>
-          <input matInput #input type="number" formControlName="buyerClosingCostsPer" name="buyerClosingCostsPer"
+          <mat-label>Buyer Closing Costs</mat-label>
+          <input matInput #input type="number" ngDefaultControl formControlName="buyerClosingCostsPer" name="buyerClosingCostsPer"
             min="0" step="0.5" placeholder="0" />
           <span matSuffix>%</span>
         </mat-form-field>
@@ -115,11 +115,11 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
   <form [formGroup]="additionalEntryForm" (ngSubmit)="onSubmit()">
-    <div class="form-add-data-container">
+    <div class="form-data-container form-add-data-container">
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Rental Cost</mat-label>
-          <input matInput #input type="number" formControlName="rentalAmt" name="rentalAmt" min="0" max="10000"
+          <input matInput #input type="number" ngDefaultControl formControlName="rentalAmt" name="rentalAmt" min="0" max="10000"
             step="100q" placeholder="0" />
           <span matSuffix>$</span>
         </mat-form-field>
@@ -127,7 +127,7 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Rental Cost Increase %</mat-label>
-          <input matInput #input type="number" formControlName="rentalIncreasePer" name="rentalIncreasePer" min="0"
+          <input matInput #input type="number" ngDefaultControl formControlName="rentalIncreasePer" name="rentalIncreasePer" min="0"
             max="10" step="1" placeholder="0" />
           <span matSuffix>%</span>
         </mat-form-field>
@@ -135,13 +135,13 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>House Appreciation %</mat-label>
-          <input matInput #input type="number" formControlName="houseValueAppreciationPer"
+          <input matInput #input type="number" ngDefaultControl formControlName="houseValueAppreciationPer"
             name="houseValueAppreciationPer" min="0" max="15" step="1" placeholder="0" />
           <span matSuffix>%</span>
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>Seller Closing Cost %</mat-label>
-          <input matInput #input type="number" formControlName="sellerClosingCostsPer" name="sellerClosingCostsPer"
+          <input matInput #input type="number" ngDefaultControl formControlName="sellerClosingCostsPer" name="sellerClosingCostsPer"
             min="0" max="15" step="1" placeholder="0" />
           <span matSuffix>%</span>
         </mat-form-field>
@@ -149,7 +149,7 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Tax Benifits Amount (Yearly)</mat-label>
-          <input matInput #input type="number" formControlName="taxBenifitYearlyAmt" name="taxBenifitYearlyAmt" min="0"
+          <input matInput #input type="number" ngDefaultControl formControlName="taxBenifitYearlyAmt" name="taxBenifitYearlyAmt" min="0"
             step="500" placeholder="0" />
           <span matSuffix>$</span>
         </mat-form-field>
@@ -157,7 +157,7 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Return on investment %</mat-label>
-          <input matInput #input type="number" formControlName="avgReturnOnInvestmentPer"
+          <input matInput #input type="number" ngDefaultControl formControlName="avgReturnOnInvestmentPer"
             name="avgReturnOnInvestmentPer" min="0" max="30" step="1" placeholder="0" />
           <span matSuffix>%</span>
         </mat-form-field>
@@ -165,7 +165,7 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Refinance After (months)</mat-label>
-          <input matInput #input type="number" formControlName="refinanceAfterMonthsCount"
+          <input matInput #input type="number" ngDefaultControl formControlName="refinanceAfterMonthsCount"
             name="refinanceAfterMonthsCount" min="0" step="6" max="10*12" />
           <span matSuffix></span>
         </mat-form-field>
@@ -173,7 +173,7 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Estimated Refinanced APR</mat-label>
-          <input matInput #input type="number" formControlName="estimatedRefinanceApr" name="estimatedRefinanceApr"
+          <input matInput #input type="number" ngDefaultControl formControlName="estimatedRefinanceApr" name="estimatedRefinanceApr"
             min="0" step="0.5" max="10" />
           <span matSuffix></span>
         </mat-form-field>

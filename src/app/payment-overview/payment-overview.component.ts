@@ -1,14 +1,12 @@
 import { IOptions } from './../interfaces/IOptions';
-import { Component, ElementRef, HostListener, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { SharedService } from '../services/shared/shared.service';
-import { IAdditionalOptions } from '../interfaces/IAdditionalOptions';
 import { CalculationUtils } from '../utils/CalculationUtils';
-import { MatLegacySlideToggleChange as MatSlideToggleChange } from '@angular/material/legacy-slide-toggle';
 import { ICalculatedMonthData, ICalculatedMonthParams } from '../interfaces/ICalculatedMonthData';
-import { MatLegacyTab as MatTab, MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
-import { MatLegacySliderChange as MatSliderChange } from '@angular/material/legacy-slider';
-import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
+import { MatTabGroup } from '@angular/material/tabs';
+import { MatSelectChange } from '@angular/material/select';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { Options } from 'ngx-slider-v2';
 
 @Component({
   selector: 'app-payment-overview',
@@ -21,11 +19,10 @@ export class PaymentOverviewComponent implements OnInit {
   allCalculatedData: ICalculatedMonthData[];
   userSelectedOptions: IOptions[] = [];
 
-  sliderOptions = {
-    max: 360,
-    min: 1,
-    step: 1,
-    tickInterval: 12
+  sliderOptions: Options = {
+    floor: 1,
+    ceil: 360,
+    step: 1
   };
   atMonth = 1;
   atMonthUpdate = new Subject<number>();
@@ -121,6 +118,7 @@ export class PaymentOverviewComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedAtOption = this.cumulative ? 'Until' : 'At';
+    this.sliderOptions.ceil = this.userSelectedOptions[0]?.loanLength * 12;
   }
 
   onAtOptionChange(event: MatSelectChange) {

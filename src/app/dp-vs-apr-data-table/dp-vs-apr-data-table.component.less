@@ -1,8 +1,11 @@
 th {
   padding: 11px 15px;
-  border: solid 1px #eafaff;
+  border: solid 1px #b9c1f24a;
+  //border-left: none;
+  border-top: none;
   text-align: center;
-  background-color: #eafaff;
+  background-color: #eaebf4;
+  font-weight: 300;
 }
 
 td {
@@ -13,6 +16,11 @@ td {
 .apr-header-row {
   width: auto;
   padding: 0px;
+}
+
+.remove-border-th {
+  border-left: solid 1px transparent;
+  border-right: solid 1px #ebedfb;
 }
 
 .dp-header-row{
@@ -31,6 +39,12 @@ td {
     writing-mode: vertical-rl;
     -webkit-transform: rotate(180deg);
     padding: 0 9px;
+    border: none;
+}
+
+.dp-header-th {
+  border-left: solid 1px #ebedfb;
+  border-right: none;
 }
 
 .val-item {

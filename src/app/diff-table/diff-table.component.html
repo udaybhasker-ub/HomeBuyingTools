@@ -11,18 +11,23 @@
     <td>
       {{diffData.buyerClosingCost| currency}}
       <mat-icon class="{{diffData.buyerClosingCost > 0 ? 'up' : 'down'}}">
-        arrow_{{diffData.buyerClosingCost > 0 ?
-        'upward' :
-        'downward'}}
+        arrow_{{diffData.buyerClosingCost > 0 ? 'upward' : 'downward'}}
+      </mat-icon>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ (diffData.downpayment + diffData.buyerClosingCost) | currency}}
+      <mat-icon class="{{ (diffData.downpayment + diffData.buyerClosingCost) > 0 ? 'up' : 'down'}}">
+        arrow_{{ (diffData.downpayment + diffData.buyerClosingCost) > 0 ? 'upward' : 'downward'}}
       </mat-icon>
     </td>
   </tr>
   <tr>
     <td>
       {{diffData.loanAmt | currency}}
-      <mat-icon class="{{diffData.loanAmt > 0 ? 'up' : 'down'}}">arrow_{{diffData.loanAmt > 0 ? 'upward'
-        :
-        'downward'}}
+      <mat-icon class="{{diffData.loanAmt > 0 ? 'up' : 'down'}}">arrow_{{diffData.loanAmt > 0 
+        ? 'upward' : 'downward'}}
       </mat-icon>
     </td>
   </tr>
@@ -119,17 +124,11 @@
       </mat-icon>
     </td>
   </tr>
-  <tr class="hr-tr">
-    <td>
-      <hr />
-    </td>
-  </tr>
-  <tr>
+  <tr class="total-cost-tr">
     <td>
       {{diffData.totalCost | currency}}
-      <mat-icon class="{{diffData.totalCost ? 'up' : 'down'}}">arrow_{{diffData.totalCost > 0 ? 'upward'
-        :
-        'downward'}}
+      <mat-icon class="{{diffData.totalCost ? 'up' : 'down'}}">arrow_{{diffData.totalCost > 0 ? 
+        'upward' : 'downward'}}
       </mat-icon>
     </td>
   </tr>

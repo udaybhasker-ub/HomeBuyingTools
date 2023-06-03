@@ -24,13 +24,31 @@ input.ng-dirty {
   p {
     display: inline-flex;
 
-    mat-form-field {
-      width: 148px;
+    ::ng-deep {
+      .mat-mdc-form-field {
+        //width: 148px;
 
-      .mat-form-field-wrapper {
-        border-left: solid 1px #cdcdcd;
+        .mdc-text-field {
+          border-radius: 0;
+        }
+
+        .mat-mdc-form-field-infix {
+          width: 125px;
+        }
+  
+        .mat-mdc-form-field-wrapper {
+          border-left: solid 1px #cdcdcd;
+        }
+  
+        .mat-mdc-form-field-icon-suffix {
+          font-size: 14px;
+          margin: 0 10px;
+          align-self: baseline;
+        }
       }
     }
+
+    
   }
   .submit-btn {
     margin-left: 18px;
