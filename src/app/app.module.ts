@@ -41,6 +41,7 @@ import { CompactLineChartComponent } from './compact-line-chart/compact-line-cha
 import { AmmortizationTableComponent } from './ammortization-table/ammortization-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { CookieService } from 'ngx-cookie-service';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule({
@@ -87,7 +88,8 @@ import { CookieService } from 'ngx-cookie-service';
     MatButtonToggleModule,
     MatTabsModule,
     MatSliderModule,
-    MatTableModule
+    MatTableModule,
+    MatMenuModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

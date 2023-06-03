@@ -13,7 +13,7 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./data-form.component.less'],
 })
 export class DataFormComponent implements OnInit {
-  options: Options = new Options({
+  readonly defaultOptions: Options = new Options({
     price: 550000,
     loanLength: 30,
     apr: 6,
@@ -27,7 +27,7 @@ export class DataFormComponent implements OnInit {
     maintainanceCostMonthly: 250,
     buyerClosingCostsPer: 3.5,
   });
-  additionalOptions: IAdditionalOptions = {
+  readonly defaultAdditionalOptions: IAdditionalOptions = {
     rentalAmt: 2400,
     rentalIncreasePer: 3,
     houseValueAppreciationPer: 4,
@@ -37,6 +37,8 @@ export class DataFormComponent implements OnInit {
     refinanceAfterMonthsCount: 24,
     estimatedRefinanceApr: 5,
   };
+  options = this.defaultOptions;
+  additionalOptions = this.defaultAdditionalOptions;
   entryForm: FormGroup;
   additionalEntryForm: FormGroup;
 
@@ -45,7 +47,39 @@ export class DataFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCookieOptions();
+    try {
+      const appOptions = this.appCookieService.getSavedOptions();
+      this.updateOptions(appOptions);
+    } catch (error) {}
+    
+    this.updateForms();
+    this.initOptionsChangeEvents();
+    this.initAddOptionsChangeEvents();
+
+    this.sharedService.defaultOptionsUpdated.subscribe((data: IOptions) => {
+      if (!Object.keys(data).length) return;
+
+      Object.keys(data).forEach((key: string) => {
+        const formEntry = this.entryForm.get(key);
+        if (formEntry) {
+          formEntry.setValue(data[key], { emitEvent: false });
+        }
+      });
+      this.onSubmit();
+    });
+
+    this.sharedService.resetOptions.subscribe(() => {
+      const opt = this.defaultOptions;
+      opt.additionalOptions = this.defaultAdditionalOptions;
+      this.updateOptions(opt);
+      this.updateForms();
+      this.onSubmit();
+    });
+
+    this.onSubmit();
+  }
+
+  updateForms() {
     let formGroupOptions = {};
     Object.keys(this.options).forEach(key => {
       let val: number = this.options[key];
@@ -63,38 +97,16 @@ export class DataFormComponent implements OnInit {
       addFormGroupOptions[key] = new FormControl(this.additionalOptions[key]);
     });
     this.additionalEntryForm = new FormGroup(addFormGroupOptions);
-
-    this.initOptionsChangeEvents();
-    this.initAddOptionsChangeEvents();
-
-    this.sharedService.defaultOptionsUpdated.subscribe((data: IOptions) => {
-      if (!Object.keys(data).length) return;
-
-      Object.keys(data).forEach((key: string) => {
-        const formEntry = this.entryForm.get(key);
-        if (formEntry) {
-          formEntry.setValue(data[key], { emitEvent: false });
-        }
-      });
-      this.onSubmit();
-    });
-
-    this.onSubmit();
   }
 
-  getCookieOptions() {
-    try {
-      const appOptions = this.appCookieService.getSavedOptions();
-      if (appOptions) {
-        this.additionalOptions = appOptions.additionalOptions;
-        delete appOptions['additionalOptions'];
-        this.options = appOptions;
-      }
-    } catch (error) {
-
+  updateOptions(options: Options) {
+    if (options) {
+      this.additionalOptions = {...options.additionalOptions};
+      delete options['additionalOptions'];
+      this.options = {...options, equal: this.options.equal};
     }
-
   }
+
   initAddOptionsChangeEvents() {
     this.additionalEntryForm.valueChanges.pipe(debounceTime(500)).subscribe(change => {
       this.onSubmit();
@@ -139,8 +151,7 @@ export class DataFormComponent implements OnInit {
     this.options.additionalOptions = this.additionalOptions;
     this.sharedService.optionsUpdated.next(this.options);
     try {
-      //this.appCookieService.saveOptions(this.options);
-
+      this.appCookieService.saveOptions(this.options);
     } catch (error) {
 
     }

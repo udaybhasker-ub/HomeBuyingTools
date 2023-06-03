@@ -1,9 +1,8 @@
 import { ChangeContext, LabelType, PointerType } from 'ngx-slider-v2';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ISliderData } from '../interfaces/ISliderData';
 import { ISliderOptions } from '../interfaces/ISliderOptions';
 import { SharedService } from '../services/shared/shared.service';
-
 @Component({
   selector: 'app-data-table-controls',
   templateUrl: './data-table-controls.component.html',
@@ -12,8 +11,8 @@ import { SharedService } from '../services/shared/shared.service';
 export class DataTableControlsComponent implements OnInit {
   sliderData: ISliderData = {
     aprData: {
-      value: 3.5,
-      highValue: 6,
+      value: 5,
+      highValue: 8,
     },
     dpData: {
       value: 10,

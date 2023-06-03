@@ -2,4 +2,10 @@
   <mat-icon class="app-icon">yard</mat-icon>
   <span>Home Buying Tools</span>
   <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon" [matMenuTriggerFor]="menu" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="onResetOptions($event)">Reset Options</button>
+  </mat-menu>
 </mat-toolbar>

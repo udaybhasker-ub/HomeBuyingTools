@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { IOptions } from '../../interfaces/IOptions';
 import { ISliderData } from '../../interfaces/ISliderData';
 import { IAdditionalOptions } from '../../interfaces/IAdditionalOptions';
@@ -14,6 +14,7 @@ export class SharedService {
   defaultOptionsUpdated: BehaviorSubject<IOptions> = new BehaviorSubject<IOptions>({} as any);
   updateNavOptions: BehaviorSubject<any> = new BehaviorSubject<any>({} as any);
   changeNavOptions: BehaviorSubject<any> = new BehaviorSubject<any>({} as any);
+  resetOptions: Subject<boolean> = new Subject();
 
   addToCompare: BehaviorSubject<IOptions> = new BehaviorSubject<IOptions>({} as any);
   removeFromCompare: BehaviorSubject<IOptions> = new BehaviorSubject<IOptions>({} as any);
