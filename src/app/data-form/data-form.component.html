@@ -162,6 +162,22 @@
           <span matSuffix>%</span>
         </mat-form-field>
       </p>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Refinance After (months)</mat-label>
+          <input matInput #input type="number" formControlName="refinanceAfterMonthsCount"
+            name="refinanceAfterMonthsCount" min="0" step="6" max="10*12" />
+          <span matSuffix></span>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Estimated Refinanced APR</mat-label>
+          <input matInput #input type="number" formControlName="estimatedRefinanceApr" name="estimatedRefinanceApr"
+            min="0" step="0.5" max="10" />
+          <span matSuffix></span>
+        </mat-form-field>
+      </p>
       <!--<p>
       <button class="submit-btn" mat-raised-button color="primary" type="submit">Update</button>
     </p>-->

@@ -4,25 +4,34 @@
 }
 
 .compact-summary-card {
-  display: flex;
-  gap: 20px;
-  text-align: center;
+  //display: flex;
+  //gap: 20px;
+  //text-align: center;
+  //flex-direction: column;
 
   .compact-card-item {
     border: solid 1px #cfcfcf;
-    border-radius: 5px;
+    border-top: none;
     display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: center;
-    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+
+    &:first-child {
+      border-top: solid 1px #cfcfcf;
+      border-radius: 5px 5px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 5px 5px;
+    }
 
     .header {
       font-size: 12px;
       font-weight: bold;
       color: #656565;
-      background-color: #eafaff;
-      min-height: 40px;
+      margin: 10px;
+      //background-color: #eafaff;
+      //min-height: 40px;
     }
 
     .value {

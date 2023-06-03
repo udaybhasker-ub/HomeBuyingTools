@@ -1,27 +1,44 @@
-
-:host {
-  //margin-left: 70px;
-}
-
 .pie-chart-container {
-  display: flex;
   justify-content: center;
+
+  ::ng-deep {
+    ngx-charts-advanced-pie-chart {
+      &>div {
+        width: auto !important;
+        height: auto !important;
+        overflow-x: auto;
+        display: flex;
+      }
+    }
+  }
 }
 
 .line-chart-container {
-  //display: flex;
   align-items: center;
   margin-bottom: 20px;
-  display: flex;
   justify-content: center;
   flex-wrap: wrap;
+
+  ::ng-deep {
+    .ngx-charts-outer {
+      width: 100% !important;
+      overflow: auto;
+    }
+  }
 }
 
 @media screen and (min-width: 1024px) {
   .compact-summary-card {
-      display: none !important;
+    display: none !important;
   }
 }
+
+::ng-deep {
+  .mat-tab-body-content {
+    margin: 0 10px;
+  }
+}
+
 
 .add-summary-group {
   margin-bottom: 20px;
@@ -37,6 +54,10 @@
     margin-bottom: 25px;
     text-align: right;
     color: gray;
+
+    @media screen and (min-width: 768px) {
+      text-align: center;
+    }
   }
 
   .add-summary-secondary-container {
@@ -80,12 +101,18 @@
         .value {
           font-size: 19px;
           min-width: 220px;
+
+          @media screen and (max-width: 768px) {
+            min-width: 0;
+          }
         }
+
         .value-secondary {
           color: gray;
           font-size: 15px;
         }
       }
+
       .insight-container {
         margin-left: 30px;
       }
@@ -102,21 +129,23 @@
     }
   }
 
-::ng-deep {
-  .val-desc {
-    color: gray;
-    font-size: 13px;
-  }
-  .val-primary {
-    &.val-primary-positive {
-      border-bottom: solid 3px green;
-      padding-bottom: 2px;
+  ::ng-deep {
+    .val-desc {
+      color: gray;
+      font-size: 13px;
     }
-    &.val-primary-negative {
-      border-bottom: solid 3px red;
-      padding-bottom: 2px;
-    }
-  }
 
-}
+    .val-primary {
+      &.val-primary-positive {
+        border-bottom: solid 3px green;
+        padding-bottom: 2px;
+      }
+
+      &.val-primary-negative {
+        border-bottom: solid 3px red;
+        padding-bottom: 2px;
+      }
+    }
+
+  }
 }

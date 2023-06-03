@@ -1,9 +1,10 @@
-
 .insight-container {
   padding: 25px;
   border: solid 1px #b5b5b5;
   border-radius: 5px;
   margin: 25px 20px;
+  display: flex;
+  flex-direction: column;
 
   .header {
     color: gray;
@@ -13,10 +14,13 @@
 
   .content-main {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 20px;
 
     .content {
       color: #535353;
+      align-self: flex-start;
     }
 
     .content-item {
@@ -28,6 +32,7 @@
         color: black;
       }
     }
+
     .content-info-item {
       display: flex;
 
@@ -44,8 +49,8 @@
 
   .content-main {
     .range-indicator-container {
-      margin-left: -14px;
-      margin-right: 14px;
+      width: 100%;
+      overflow: auto;
     }
   }
 }

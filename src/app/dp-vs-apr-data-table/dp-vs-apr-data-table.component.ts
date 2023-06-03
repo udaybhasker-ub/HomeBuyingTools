@@ -129,6 +129,7 @@ export class DpVsAprDataTableComponent implements OnInit {
 
   @HostListener('document:click', ['$event.path'])
   public onGlobalClick(targetElementPath: Array<any>) {
+    if (!targetElementPath) return;
     let compareBtn = targetElementPath.find(e => e.classList && (e.classList.contains("compare-btn") || e.classList.contains("compare-footer-btn")));
     let elementRefInPath = targetElementPath.find(e => e === this.tooltip.element.nativeElement);
     if (compareBtn || !elementRefInPath) {

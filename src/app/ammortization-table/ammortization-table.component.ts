@@ -9,8 +9,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   styleUrls: ['./ammortization-table.component.less'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
@@ -19,8 +19,8 @@ export class AmmortizationTableComponent implements OnInit {
   @Input() results: ICalculatedMonthData[];
 
   dataSource = [];
-  columnsToDisplay: string[] =  ['Year', 'month', 'principal', 'interest', 'emi', 'otherCosts', 'totalCost', 'loanBalance'];
-  columnsToDisplayWithExpand: string[]  = [...this.columnsToDisplay, 'expand'];
+  columnsToDisplay: string[] = ['Year', 'month', 'principal', 'apr', 'interest', 'emi', 'otherCosts', 'totalCost', 'loanBalance'];
+  columnsToDisplayWithExpand: string[] = [...this.columnsToDisplay, 'expand'];
   expandedElement;
   SeriesLabels = SeriesLabels;
 
@@ -28,7 +28,7 @@ export class AmmortizationTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-     this.prepareData();
+    this.prepareData();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -37,20 +37,20 @@ export class AmmortizationTableComponent implements OnInit {
 
   prepareData() {
     const results = this.results
-    .map((month: ICalculatedMonthData) => {
-     let object = {};
-     this.columnsToDisplay.forEach(col => {
-       if(col === 'Year') {
-         let val = Math.floor(month.atMonth.month / 12);
-         object[col] = val + (month.atMonth.month % 12 === 0 ? 0 : 1);
-       } else {
-         object[col] = month.atMonth[col];
-       }
+      .map((month: ICalculatedMonthData) => {
+        let object = {};
+        this.columnsToDisplay.forEach(col => {
+          if (col === 'Year') {
+            let val = Math.floor(month.atMonth.month / 12);
+            object[col] = val + (month.atMonth.month % 12 === 0 ? 0 : 1);
+          } else {
+            object[col] = month.atMonth[col];
+          }
 
-     });
-     return object;
-   });
-   this.dataSource = results;
+        });
+        return object;
+      });
+    this.dataSource = results;
   }
 
   ngAfterViewInit(): void {
@@ -63,10 +63,10 @@ export class AmmortizationTableComponent implements OnInit {
   toggleExpand(element, event: Event) {
     event.stopPropagation();
 
-    const expandRow = this.el.nativeElement.querySelector('tr.year-level-row[data-year="'+ element['Year']+'"]');
+    const expandRow = this.el.nativeElement.querySelector('tr.year-level-row[data-year="' + element['Year'] + '"]');
     const expanded = expandRow.classList.contains('expanded');
 
-    const childRows = this.el.nativeElement.querySelectorAll('tr.month-level-row[data-year="' + element['Year']+'"]');
+    const childRows = this.el.nativeElement.querySelectorAll('tr.month-level-row[data-year="' + element['Year'] + '"]');
     childRows.forEach((el) => {
       expanded ? el.classList.add('contracted') : el.classList.remove('contracted');
     });

@@ -216,4 +216,8 @@ export class PaymentOverviewComponent implements OnInit {
   sortByTotalCost(n1: IOptions, n2: IOptions) {
     return CalculationUtils.calculateDataMatrix(n1)[0].atMonth.totalCost - CalculationUtils.calculateDataMatrix(n2)[0].atMonth.totalCost
   }
+
+  onInputFocus(event: Event) {
+    (event.target as HTMLInputElement).select();
+  }
 }

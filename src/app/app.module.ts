@@ -40,6 +40,7 @@ import { RangeIndicatorComponent } from './range-indicator/range-indicator.compo
 import { CompactLineChartComponent } from './compact-line-chart/compact-line-chart.component';
 import { AmmortizationTableComponent } from './ammortization-table/ammortization-table.component';
 import { MatTableModule } from '@angular/material/table';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @NgModule({
@@ -88,7 +89,7 @@ import { MatTableModule } from '@angular/material/table';
     MatSliderModule,
     MatTableModule
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -29,11 +29,18 @@ export class CalculationUtils {
 
     Array.from({ length: atMonth || 1 }, (_, i) => i + 1).forEach(i => {
       cumulative.month = i;
-      const principal = financial.ppmt(selectedOptions.apr / (12 * 100), i,
+      const apr = selectedOptions.additionalOptions.estimatedRefinanceApr > 0
+        && selectedOptions.additionalOptions.refinanceAfterMonthsCount > 0
+        && i > selectedOptions.additionalOptions.refinanceAfterMonthsCount
+        ? selectedOptions.additionalOptions.estimatedRefinanceApr : selectedOptions.apr;
+      const principal = financial.ppmt(apr / (12 * 100), i,
         selectedOptions.loanLength * 12, - loanAmt);
+
+      cumulative.apr = apr;
+
       cumulative.principal += principal;
 
-      const interest = financial.ipmt(selectedOptions.apr / (12 * 100), i,
+      const interest = financial.ipmt(apr / (12 * 100), i,
         selectedOptions.loanLength * 12, - loanAmt);
       cumulative.interest += interest;
 
@@ -98,6 +105,7 @@ export class CalculationUtils {
 
       const atMonth = {
         month: i,
+        apr,
 
         downpayment,
         loanAmt,
@@ -140,6 +148,7 @@ export class CalculationUtils {
       });
     });
 
+    //console.log(calcData);
     return calcData;
   }
 

@@ -5,4 +5,6 @@ export interface IAdditionalOptions {
   sellerClosingCostsPer: number;
   taxBenifitYearlyAmt: number;
   avgReturnOnInvestmentPer: number;
+  refinanceAfterMonthsCount: number;
+  estimatedRefinanceApr: number;
 }

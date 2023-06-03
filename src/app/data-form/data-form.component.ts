@@ -4,6 +4,8 @@ import { SharedService } from '../services/shared/shared.service';
 import { IOptions } from '../interfaces/IOptions';
 import { Options } from '../objects/Options';
 import { IAdditionalOptions } from '../interfaces/IAdditionalOptions';
+import { AppCookieService } from '../services/cookie.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-data-form',
@@ -12,31 +14,38 @@ import { IAdditionalOptions } from '../interfaces/IAdditionalOptions';
 })
 export class DataFormComponent implements OnInit {
   options: Options = new Options({
-    price: 500000,
+    price: 550000,
     loanLength: 30,
-    apr: 5.5,
-    downpaymentPer: 13.0,
+    apr: 6,
+    downpaymentPer: 10.0,
     downpaymentAmt: 0,
-    propertyTaxPer: 1.29,
+    propertyTaxPer: 2.1,
     homeInsRate: 0.63,
     homeInsAmt: 3150.00,
     pmiRate: 0.75,
-    hoaMonthly: 50,
+    hoaMonthly: 150,
     maintainanceCostMonthly: 250,
     buyerClosingCostsPer: 3.5,
   });
   additionalOptions: IAdditionalOptions = {
-    rentalAmt: 1910,
+    rentalAmt: 2400,
     rentalIncreasePer: 3,
     houseValueAppreciationPer: 4,
     sellerClosingCostsPer: 8,
-    taxBenifitYearlyAmt: 2500,
-    avgReturnOnInvestmentPer: 7.0
+    taxBenifitYearlyAmt: 2500 + 5000,
+    avgReturnOnInvestmentPer: 7.0,
+    refinanceAfterMonthsCount: 24,
+    estimatedRefinanceApr: 5,
   };
   entryForm: FormGroup;
   additionalEntryForm: FormGroup;
 
-  constructor(private sharedService: SharedService) {
+  constructor(private sharedService: SharedService, private appCookieService: AppCookieService) {
+
+  }
+
+  ngOnInit(): void {
+    this.getCookieOptions();
     let formGroupOptions = {};
     Object.keys(this.options).forEach(key => {
       let val: number = this.options[key];
@@ -54,9 +63,7 @@ export class DataFormComponent implements OnInit {
       addFormGroupOptions[key] = new FormControl(this.additionalOptions[key]);
     });
     this.additionalEntryForm = new FormGroup(addFormGroupOptions);
-  }
 
-  ngOnInit(): void {
     this.initOptionsChangeEvents();
     this.initAddOptionsChangeEvents();
 
@@ -74,36 +81,50 @@ export class DataFormComponent implements OnInit {
 
     this.onSubmit();
   }
+
+  getCookieOptions() {
+    try {
+      const appOptions = this.appCookieService.getSavedOptions();
+      if (appOptions) {
+        this.additionalOptions = appOptions.additionalOptions;
+        delete appOptions['additionalOptions'];
+        this.options = appOptions;
+      }
+    } catch (error) {
+
+    }
+
+  }
   initAddOptionsChangeEvents() {
-    this.additionalEntryForm.valueChanges.subscribe(change => {
+    this.additionalEntryForm.valueChanges.pipe(debounceTime(500)).subscribe(change => {
       this.onSubmit();
     });
   }
   initOptionsChangeEvents() {
-    this.entryForm.get('price')?.valueChanges.subscribe((change: any) => {
+    this.entryForm.get('price')?.valueChanges.pipe(debounceTime(500)).subscribe((change: any) => {
       let val = change * (this.options.downpaymentPer / 100);
       this.setEntryFormValue('downpaymentAmt', val);
 
       val = change * (this.options.homeInsRate / 100);
       this.setEntryFormValue('homeInsAmt', val);
     });
-    this.entryForm.get('downpaymentPer')?.valueChanges.subscribe((change: any) => {
+    this.entryForm.get('downpaymentPer')?.valueChanges.pipe(debounceTime(500)).subscribe((change: any) => {
       const val = this.options.price * (parseFloat(change) / 100);
       this.setEntryFormValue('downpaymentAmt', val);
     });
-    this.entryForm.get('downpaymentAmt')?.valueChanges.subscribe((change: any) => {
+    this.entryForm.get('downpaymentAmt')?.valueChanges.pipe(debounceTime(500)).subscribe((change: any) => {
       const val = (parseFloat(change) / this.options.price) * 100;
       this.setEntryFormValue('downpaymentPer', val.toFixed(2));
     });
-    this.entryForm.get('homeInsRate')?.valueChanges.subscribe((change: any) => {
+    this.entryForm.get('homeInsRate')?.valueChanges.pipe(debounceTime(500)).subscribe((change: any) => {
       let val: number = this.options.price * (parseFloat(change) / 100);
       this.setEntryFormValue('homeInsAmt', Math.trunc(val));
     });
-    this.entryForm.get('homeInsAmt')?.valueChanges.subscribe((change: any) => {
+    this.entryForm.get('homeInsAmt')?.valueChanges.pipe(debounceTime(500)).subscribe((change: any) => {
       let val: number = (parseFloat(change) / this.options.price) * 100;
       this.setEntryFormValue('homeInsRate', val.toFixed(2));
     });
-    this.entryForm.valueChanges.subscribe((change) => {
+    this.entryForm.valueChanges.pipe(debounceTime(500)).subscribe((change) => {
       this.onSubmit();
     });
   }
@@ -115,9 +136,14 @@ export class DataFormComponent implements OnInit {
     Object.keys(this.additionalOptions).forEach((key: string) => {
       this.additionalOptions[key] = this.additionalEntryForm.get(key)?.value;
     });
-    //this.options.
     this.options.additionalOptions = this.additionalOptions;
     this.sharedService.optionsUpdated.next(this.options);
+    try {
+      //this.appCookieService.saveOptions(this.options);
+
+    } catch (error) {
+
+    }
   }
 
   setEntryFormValue(arg: string, val: any) {

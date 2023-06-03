@@ -5,6 +5,7 @@ export class CalculatedMonthParams implements ICalculatedMonthParams {
   downpayment: number = 0;
   loanAmt: number = 0;
   month: number = 0;
+  apr: number = 0;
   principal: number = 0;
   interest: number = 0;
   emi: number = 0;

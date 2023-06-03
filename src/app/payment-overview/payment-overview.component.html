@@ -6,8 +6,8 @@
     </mat-select>
     Month
     <span class="slider-val">
-      <span class="slider-month-val">{{atMonth}}</span>
-      <span class="slider-val-sec">/{{userSelectedOptions[0].loanLength*12}} m
+      <input class="slider-month-val" [(ngModel)]="atMonth" (focus)="onInputFocus($event)" />
+      <span class="slider-val-sec">/{{userSelectedOptions[0]?.loanLength*12}} m
       </span>
       <span *ngIf="atMonth > 11" class="month-words">{{atMonth | monthToWords}}</span>
     </span>
@@ -15,7 +15,7 @@
   <button mat-button (click)="moveSlider('right')">
     <mat-icon>keyboard_arrow_right</mat-icon>
   </button>
-  <mat-slider class="month-slider" [max]="userSelectedOptions[0].loanLength * 12" [min]="sliderOptions.min"
+  <mat-slider class="month-slider" [max]="userSelectedOptions[0]?.loanLength * 12" [min]="sliderOptions.min"
     [step]="sliderOptions.step" [tickInterval]="sliderOptions.tickInterval" [thumbLabel]="true" [(ngModel)]="atMonth"
     (ngModelChange)="atMonthUpdate.next($event)" aria-labelledby="example-name-label">
   </mat-slider>
@@ -52,7 +52,7 @@
   </mat-tab>
   <mat-tab label="Ammortization">
     <div class="compare-cards-container tab-panel-container">
-     <app-ammortization-table [results]="allCalculatedData"></app-ammortization-table>
+      <app-ammortization-table [results]="allCalculatedData"></app-ammortization-table>
     </div>
   </mat-tab>
 </mat-tab-group>

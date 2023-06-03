@@ -1,5 +1,6 @@
 export interface ICalculatedMonthParams {
   month: number;
+  apr: number;
 
   downpayment: number;
   loanAmt: number;

@@ -15,6 +15,15 @@
     box-shadow: 2px 2px 34px -10px rgb(0 0 0 / 22%);
   }
 
+  @media screen and (max-width: 768px) {
+    .mat-slider {
+      display: none;
+    }
+
+    button.mat-button {
+      min-width: 30px;
+    }
+  }
 }
 
 .compare-cards-container {
@@ -26,12 +35,23 @@
   overflow: auto;
   //width: 100%;
   //justify-content: center;
+
+  ::ng-deep {
+
+    th,
+    td {
+      padding: 0 10px;
+    }
+  }
+
 }
+
 .summary-tab-container {
   display: flex;
   gap: 60px;
   align-items: center;
 }
+
 .tab-panel-container {
   margin-top: 10px;
 }
@@ -51,18 +71,18 @@ app-selected-summary {
 }
 
 .add-to-compare-dummy-card {
-    width: 310px;
-    border-radius: 5px;
-    font-size: 1em;
-    border: dashed 1px #9f9f9f;
-    margin-left: 65px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+  width: 310px;
+  border-radius: 5px;
+  font-size: 1em;
+  border: dashed 1px #9f9f9f;
+  margin-left: 65px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 
-    display: inline-flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
 
 .select-text-container {
@@ -82,18 +102,30 @@ app-selected-summary {
 
     min-width: 100px;
   }
+
   .slider-month-val {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bolder;
+    border: none;
+    width: 42px;
+    text-align: right;
+    text-decoration: underline;
+
+    &:focus {
+      border: solid 1px gray;
+      text-decoration: none;
+    }
   }
+
   .month-words {
     display: block;
     color: gray;
     font-size: 14px;
+    text-align: center;
   }
 }
 
-.month-slider{
+.month-slider {
   //min-width: 600px;
   width: 50%;
 }
@@ -106,4 +138,3 @@ app-selected-summary {
   margin-left: 20px;
   font-weight: bold;
 }
-
