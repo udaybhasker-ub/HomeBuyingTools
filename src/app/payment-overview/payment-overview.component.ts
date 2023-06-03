@@ -3,11 +3,11 @@ import { Component, ElementRef, HostListener, OnInit, SimpleChange, SimpleChange
 import { SharedService } from '../services/shared/shared.service';
 import { IAdditionalOptions } from '../interfaces/IAdditionalOptions';
 import { CalculationUtils } from '../utils/CalculationUtils';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatLegacySlideToggleChange as MatSlideToggleChange } from '@angular/material/legacy-slide-toggle';
 import { ICalculatedMonthData, ICalculatedMonthParams } from '../interfaces/ICalculatedMonthData';
-import { MatTab, MatTabGroup } from '@angular/material/tabs';
-import { MatSliderChange } from '@angular/material/slider';
-import { MatSelectChange } from '@angular/material/select';
+import { MatLegacyTab as MatTab, MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
+import { MatLegacySliderChange as MatSliderChange } from '@angular/material/legacy-slider';
+import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
