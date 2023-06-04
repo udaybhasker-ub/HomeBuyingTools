@@ -1,0 +1,31 @@
+<tr>
+    <td>
+        <mat-form-field appearance="fill">
+            <mat-label>Min</mat-label>
+            <input matInput #input type="number" [(ngModel)]="data.min" (change)="onChanged(index)" min="0"
+                placeholder="0" />
+            <span matSuffix>$</span>
+        </mat-form-field>
+    </td>
+    <td>
+        <mat-form-field appearance="fill">
+            <mat-label>Max</mat-label>
+            <input matInput #input type="number" [(ngModel)]="data.max" (change)="onChanged(index)" min="0"
+                placeholder="0" />
+            <span matSuffix>$</span>
+        </mat-form-field>
+    </td>
+    <td>
+        <mat-form-field appearance="fill" class="rate-input">
+            <mat-label>Rate</mat-label>
+            <input matInput #input type="number" [(ngModel)]="data.rate" (change)="onChanged(index)" min="0"
+                placeholder="0" />
+            <span matSuffix>%</span>
+        </mat-form-field>
+    </td>
+    <td>
+        <button mat-icon-button class="arrow-btn" (click)="this.onRemove.emit(index)">
+            <mat-icon>remove</mat-icon>
+        </button>
+    </td>
+</tr>

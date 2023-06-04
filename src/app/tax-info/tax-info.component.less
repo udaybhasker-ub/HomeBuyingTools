@@ -1,0 +1,38 @@
+:host {
+    padding: 20px;
+    border: solid 1px #d7d7d7;
+    border-radius: 5px;
+}
+
+tr {
+    &.home-own-tr {
+        background-color: aliceblue;
+    }
+
+    &.highlite-tr {
+        font-weight: bold;
+
+        td {
+            color: black;
+        }
+    }
+
+    &:not(.highlite-tr) {
+        font-size: 0.95em;
+    }
+}
+
+td {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    color: gray;
+
+    &.val {
+        letter-spacing: 1px;
+        color: #393939;
+    }
+
+    &.highlite-val {
+        background-color: aliceblue;
+    }
+}

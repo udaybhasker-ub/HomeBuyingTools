@@ -2,7 +2,7 @@
   <div *ngIf="detailsCard && selectedOptions.userSelectedItem" class="selected-pill">
     Default
   </div>
-  
+
   <div *ngIf="detailsCard">
     <button *ngIf="!selectedOptions.selectedForComparision && !lastItemUserSelected" (click)="addToCompare()"
       class="compare-btn" mat-mini-fab color="basic">
@@ -120,18 +120,29 @@
         -{{ result.otherCosts | currency }}
       </td>
     </tr>
+    <tr class="detail-val-tr">
+      <td>Estimated Tax Benifit</td>
+      <td class="snippet-val-td">
+        {{ ((selectedOptions.additionalOptions.taxBenifitYearlyAmt/12) * (cumulative? selectedOptions.atMonth : 1)) |
+        currency }}
+      </td>
+    </tr>
     <tr class="total-val-tr">
       <td>Total (<span class="total-duration-{{cumulative ? 'y' : 'm'}}">{{cumulative ? 'Until' : 'At'}}
           {{selectedOptions.atMonth}} month</span>)
       </td>
       <td class="snippet-val-td total-val">
-        {{ result.totalCost | currency }}
+        <div>{{ result.totalCost | currency }}</div>
+        <div class="total-val-sec">*{{ (result.totalCost - ((selectedOptions.additionalOptions.taxBenifitYearlyAmt/12) *
+          (cumulative?
+          selectedOptions.atMonth : 1)))
+          | currency }}</div>
       </td>
     </tr>
     <tr *ngIf="!detailsCard">
       <td>
         <button *ngIf="!detailsCard && !selectedOptions.userSelectedItem" (click)="setDefault(selectedOptions)"
-        class="footer-btn default-btn" mat-raised-button color="primary" title="Make it default">
+          class="footer-btn default-btn" mat-raised-button color="primary" title="Make it default">
           <mat-icon>star</mat-icon> Make Default
         </button>
       </td>

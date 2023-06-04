@@ -1,0 +1,54 @@
+<table>
+    <tr class="highlite-tr">
+        <td class="label">Fit Taxable Wages</td>
+        <td class="val">{{data.fitTaxableIncome | currency}}</td>
+    </tr>
+    <tr>
+        <td class="label">Child Tax Credit</td>
+        <td class="val">{{data.childTaxCreditAmount| currency}}</td>
+    </tr>
+    <tr>
+        <td class="label">Standard Deduction</td>
+        <td class="val">{{data.standardDeductionAmount| currency}}</td>
+    </tr>
+    <tr class="home-own-tr">
+        <td class="label">Mortgage Interest Deduction</td>
+        <td class="val">{{data.mortgageInterestDeduction| currency}}</td>
+    </tr>
+    <tr class="home-own-tr">
+        <td class="label">Mortgage Insurance Deduction</td>
+        <td class="val">{{data.mortgageInsuranceDeduction| currency}}</td>
+    </tr>
+    <tr class="home-own-tr">
+        <td class="label">Property Tax Deduction</td>
+        <td class="val">{{data.propertyTaxDeduction| currency}}</td>
+    </tr>
+    <tr>
+        <td class="label">State Tax Deduction</td>
+        <td class="val">{{data.stateTaxAmount| currency}}</td>
+    </tr>
+    <tr>
+        <td class="label">SALT Tax Total</td>
+        <td class="val">{{data.saltTaxAmount| currency}}</td>
+    </tr>
+    <tr class="highlite-tr">
+        <td class="label">Deductions Total</td>
+        <td class="val">{{data.homeDeductionTotal| currency}}</td>
+    </tr>
+    <tr class="highlite-tr">
+        <td class="label">Taxable Income</td>
+        <td class="val">{{data.taxableIncome| currency}}</td>
+    </tr>
+    <tr>
+        <td class="label">Tax Before Credits</td>
+        <td class="val">{{data.taxesBeforeCredits| currency}}</td>
+    </tr>
+    <tr class="highlite-tr">
+        <td class="label">Nett Federal Tax</td>
+        <td class="val">{{data.netFederalTax| currency}}</td>
+    </tr>
+    <tr class="highlite-tr">
+        <td class="label">Home Owner Tax Benifit</td>
+        <td class="val highlite-val">{{data.taxBenifits| currency}}</td>
+    </tr>
+</table>

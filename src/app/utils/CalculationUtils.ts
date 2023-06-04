@@ -4,6 +4,7 @@ import * as financial from 'financial';
 import { CalculatedMonthParams } from '../objects/CalculatedMonthParams';
 import { ICalculatedMonthData } from '../interfaces/ICalculatedMonthData';
 import { ICalculatedInsights } from '../interfaces/ICalculatedInsights';
+import { TaxCalculated, TaxOptions } from '../interfaces/tax-options.type';
 
 export class CalculationUtils {
 
@@ -72,6 +73,9 @@ export class CalculationUtils {
 
       const homeAppreciatedAmt = financial.fv(selectedOptions.additionalOptions.houseValueAppreciationPer / (12 * 100),
         i, 0, -selectedOptions.price);
+
+      cumulative.homeAppreciatedAmt = homeAppreciatedAmt;
+
       const closingCost = homeAppreciatedAmt * (selectedOptions.additionalOptions.sellerClosingCostsPer / 100);
 
       const taxSavings = selectedOptions.additionalOptions.taxBenifitYearlyAmt / 12;
@@ -148,8 +152,57 @@ export class CalculationUtils {
       });
     });
 
-    //console.log(calcData);
     return calcData;
+  }
+
+  static calculateFederalTax(selectedOptions: IOptions, taxOptions: TaxOptions, month: number): TaxCalculated {
+    const saltLimit = 10000;
+    const stateTaxAmount = taxOptions.stateTaxRate * taxOptions.fitTaxableIncome;
+    const childTaxCreditAmount = taxOptions.childTaxCredit * taxOptions.dependentsCount;
+    const data: ICalculatedMonthData[] = this.calculateDataMatrix(selectedOptions, month);
+    const atYearEnd = data[data.length - 1];
+    const saltTaxAmount = atYearEnd.cumulative.propertyTax + stateTaxAmount;
+    const homeDeductionTotal = atYearEnd.cumulative.interest + atYearEnd.cumulative.homeInsuranceCost + Math.min(saltTaxAmount, saltLimit);
+    const taxableIncome = taxOptions.fitTaxableIncome - Math.max(taxOptions.standardDeduction, homeDeductionTotal);
+
+    const taxesBeforeCredits = this.calculateFedTax(taxOptions, taxableIncome);
+    const netFederalTax = taxesBeforeCredits - childTaxCreditAmount;
+    //console.log("netFederalTax=", netFederalTax);
+
+    const nonHomeOwnerDeductionTotal = Math.min(stateTaxAmount, saltLimit);
+    const nonHomeOwnerTaxableIncome = taxOptions.fitTaxableIncome - Math.max(taxOptions.standardDeduction, nonHomeOwnerDeductionTotal);
+    const nonHomeOwnerTaxesBeforeCredits = this.calculateFedTax(taxOptions, nonHomeOwnerTaxableIncome);
+    const nonHomeOwnerNetFederalTax = nonHomeOwnerTaxesBeforeCredits - childTaxCreditAmount;
+    //console.log("nonHomeOwnerNetFederalTax=", nonHomeOwnerNetFederalTax);
+
+    const taxBenifits = nonHomeOwnerNetFederalTax - netFederalTax;
+
+    return {
+      fitTaxableIncome: taxOptions.fitTaxableIncome,
+      childTaxCreditAmount,
+      standardDeductionAmount: taxOptions.standardDeduction,
+      stateTaxAmount,
+      mortgageInterestDeduction: atYearEnd.cumulative.interest,
+      mortgageInsuranceDeduction: atYearEnd.cumulative.homeInsuranceCost,
+      propertyTaxDeduction: atYearEnd.cumulative.propertyTax,
+      homeDeductionTotal,
+      saltTaxAmount,
+      taxableIncome,
+      taxesBeforeCredits,
+      netFederalTax,
+      taxBenifits
+    }
+  }
+
+  private static calculateFedTax(taxOptions: TaxOptions, taxableIncome: number) {
+    let taxesBeforeCredits = 0;
+    for (let i = 0; i < taxOptions.taxBrackets.length; i++) {
+      const stepAmount = (taxableIncome - taxOptions.taxBrackets[i].min);
+      const stepRate = ((taxOptions.taxBrackets[i].rate - (taxOptions.taxBrackets[i - 1]?.rate || 0))) / 100;
+      const stepTax = stepAmount * stepRate;
+      taxesBeforeCredits += (stepTax > 0 ? stepTax : 0);
+    }
+    return taxesBeforeCredits;
   }
 
   static getInsights(results: ICalculatedMonthData[], selectedOptions: IOptions): Iinsights {

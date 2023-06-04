@@ -1,6 +1,7 @@
 import { IOptions } from "../interfaces/IOptions";
 import * as financial from 'financial';
 import { IAdditionalOptions } from "../interfaces/IAdditionalOptions";
+import { TaxOptions } from "../interfaces/tax-options.type";
 
 export class Options implements IOptions {
   price: number;
@@ -19,6 +20,7 @@ export class Options implements IOptions {
   maintainanceCostMonthly: number;
   buyerClosingCostsPer?: number;
   additionalOptions: IAdditionalOptions;
+  taxOptions: TaxOptions;
 
   public constructor(init: Partial<Options>) {
     Object.assign(this, init);

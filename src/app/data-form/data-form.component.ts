@@ -6,6 +6,8 @@ import { Options } from '../objects/Options';
 import { IAdditionalOptions } from '../interfaces/IAdditionalOptions';
 import { AppCookieService } from '../services/cookie.service';
 import { debounceTime } from 'rxjs/operators';
+import { TaxCalculated, TaxOptions } from '../interfaces/tax-options.type';
+import { CalculationUtils } from '../utils/CalculationUtils';
 
 @Component({
   selector: 'app-data-form',
@@ -37,10 +39,37 @@ export class DataFormComponent implements OnInit {
     refinanceAfterMonthsCount: 24,
     estimatedRefinanceApr: 5,
   };
+  readonly defaultTaxOptions: TaxOptions = {
+    fitTaxableIncome: 100000,
+    childTaxCredit: 1800,
+    dependentsCount: 1,
+    standardDeduction: 27700,
+    stateTaxRate: 0,
+    taxBrackets: [{
+      min: 0,
+      max: 22000,
+      rate: 10
+    }, {
+      min: 22001,
+      max: 89450,
+      rate: 12
+    }, {
+      min: 89451,
+      max: 190750,
+      rate: 22
+    }, {
+      min: 190751,
+      max: 354200,
+      rate: 24
+    }]
+  };
   options = this.defaultOptions;
   additionalOptions = this.defaultAdditionalOptions;
+  taxOptions = this.defaultTaxOptions;
   entryForm: FormGroup;
   additionalEntryForm: FormGroup;
+  taxOptionsForm: FormGroup;
+  taxCalculated: TaxCalculated;
 
   constructor(private sharedService: SharedService, private appCookieService: AppCookieService) {
 
@@ -50,8 +79,8 @@ export class DataFormComponent implements OnInit {
     try {
       const appOptions = this.appCookieService.getSavedOptions();
       this.updateOptions(appOptions);
-    } catch (error) {}
-    
+    } catch (error) { }
+
     this.updateForms();
     this.initOptionsChangeEvents();
     this.initAddOptionsChangeEvents();
@@ -71,6 +100,7 @@ export class DataFormComponent implements OnInit {
     this.sharedService.resetOptions.subscribe(() => {
       const opt = this.defaultOptions;
       opt.additionalOptions = this.defaultAdditionalOptions;
+      opt.taxOptions = this.defaultTaxOptions;
       this.updateOptions(opt);
       this.updateForms();
       this.onSubmit();
@@ -97,13 +127,27 @@ export class DataFormComponent implements OnInit {
       addFormGroupOptions[key] = new FormControl(this.additionalOptions[key]);
     });
     this.additionalEntryForm = new FormGroup(addFormGroupOptions);
+
+    let taxFormGroupOptions = {};
+    Object.keys(this.taxOptions).forEach(key => {
+      //if (key === 'taxBrackets') return;
+      taxFormGroupOptions[key] = new FormControl(this.taxOptions[key]);
+    });
+    this.taxOptionsForm = new FormGroup(taxFormGroupOptions);
+  }
+
+  onTaxBracketChange(taxOptions: TaxOptions) {
+    this.taxOptions = { ...taxOptions };
+    //this.onSubmit();
+    this.options.taxOptions = { ...this.taxOptions };
+    this.appCookieService.saveOptions(this.options);
   }
 
   updateOptions(options: Options) {
     if (options) {
-      this.additionalOptions = {...options.additionalOptions};
-      delete options['additionalOptions'];
-      this.options = {...options, equal: this.options.equal};
+      this.additionalOptions = { ...options.additionalOptions };
+      this.taxOptions = { ...options.taxOptions };
+      this.options = { ...options, equal: this.options.equal };
     }
   }
 
@@ -139,6 +183,10 @@ export class DataFormComponent implements OnInit {
     this.entryForm.valueChanges.pipe(debounceTime(500)).subscribe((change) => {
       this.onSubmit();
     });
+
+    this.taxOptionsForm.valueChanges.pipe(debounceTime(500)).subscribe((change) => {
+      this.onSubmit();
+    });
   }
 
   onSubmit() {
@@ -148,13 +196,20 @@ export class DataFormComponent implements OnInit {
     Object.keys(this.additionalOptions).forEach((key: string) => {
       this.additionalOptions[key] = this.additionalEntryForm.get(key)?.value;
     });
+    Object.keys(this.taxOptions).forEach((key: string) => {
+      this.taxOptions[key] = this.taxOptionsForm.get(key)?.value;
+    });
+
+    this.options.taxOptions = this.taxOptions;
     this.options.additionalOptions = this.additionalOptions;
+    this.taxCalculated = CalculationUtils.calculateFederalTax(this.options, this.taxOptions, 12);
+    this.additionalOptions.taxBenifitYearlyAmt = Math.round(this.taxCalculated.taxBenifits);
+
+    this.additionalEntryForm.get('taxBenifitYearlyAmt')?.setValue(this.additionalOptions.taxBenifitYearlyAmt, { emitEvent: false });
     this.sharedService.optionsUpdated.next(this.options);
     try {
       this.appCookieService.saveOptions(this.options);
-    } catch (error) {
-
-    }
+    } catch (error) { }
   }
 
   setEntryFormValue(arg: string, val: any) {

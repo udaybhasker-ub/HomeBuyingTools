@@ -1,23 +1,40 @@
-.form-data-expansion-panel {
+mat-expansion-panel {
   margin-bottom: 10px;
 }
 
 @-o-keyframes fadeIt {
-  0%   { background-color: #f6f6f6; }
-  50%  { background-color: #cdeef8; }
-  100% { background-color: #f6f6f6; }
+  0% {
+    background-color: #f6f6f6;
+  }
+
+  50% {
+    background-color: #cdeef8;
+  }
+
+  100% {
+    background-color: #f6f6f6;
+  }
 }
+
 @keyframes fadeIt {
-  0%   { background-color: #f6f6f6; }
-  50%  { background-color: #cdeef8;}
-  100% { background-color: #f6f6f6; }
+  0% {
+    background-color: #f6f6f6;
+  }
+
+  50% {
+    background-color: #cdeef8;
+  }
+
+  100% {
+    background-color: #f6f6f6;
+  }
 }
 
 input.ng-dirty {
   //background-color: aqua !important;
-  background-image:none !important;
-         -o-animation: fadeIt 2s ease-out;
-            animation: fadeIt 2s ease-out;
+  background-image: none !important;
+  -o-animation: fadeIt 2s ease-out;
+  animation: fadeIt 2s ease-out;
 }
 
 .form-data-container {
@@ -35,11 +52,11 @@ input.ng-dirty {
         .mat-mdc-form-field-infix {
           width: 125px;
         }
-  
+
         .mat-mdc-form-field-wrapper {
           border-left: solid 1px #cdcdcd;
         }
-  
+
         .mat-mdc-form-field-icon-suffix {
           font-size: 14px;
           margin: 0 10px;
@@ -48,12 +65,19 @@ input.ng-dirty {
       }
     }
 
-    
+
   }
 
   .submit-btn {
     margin-left: 18px;
   }
+}
+
+.tax-info-container {
+  display: flex;
+  justify-content: space-around;
+
+
 }
 
 .afford-link {
@@ -72,6 +96,7 @@ input.ng-dirty {
       }
     }
   }
+
   .submit-btn {
     margin-left: 18px;
   }

@@ -42,6 +42,9 @@ import { AmmortizationTableComponent } from './ammortization-table/ammortization
 import { MatTableModule } from '@angular/material/table';
 import { CookieService } from 'ngx-cookie-service';
 import {MatMenuModule} from '@angular/material/menu';
+import { TaxBracketEntryComponent } from './tax-bracket-entry/tax-bracket-entry.component';
+import { TaxBracketTableComponent } from './tax-bracket-table/tax-bracket-table.component';
+import { TaxInfoComponent } from './tax-info/tax-info.component';
 
 
 @NgModule({
@@ -66,7 +69,10 @@ import {MatMenuModule} from '@angular/material/menu';
     InsightsContainerComponent,
     RangeIndicatorComponent,
     CompactLineChartComponent,
-    AmmortizationTableComponent
+    AmmortizationTableComponent,
+    TaxBracketEntryComponent,
+    TaxBracketTableComponent,
+    TaxInfoComponent
   ],
   imports: [
     BrowserModule,

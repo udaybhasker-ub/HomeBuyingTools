@@ -1,0 +1,12 @@
+<div class="tax-bracket-input-container">
+    <table #table>
+        <app-tax-bracket-entry *ngFor="let bracket of this.options.taxBrackets; let i = index" [data]="bracket"
+            [index]="i" (onRemove)="removeTaxBracketRow($event)"
+            (onChange)="onRowChange($event)"></app-tax-bracket-entry>
+    </table>
+    <div *ngIf="this.options.taxBrackets.length < 5">
+        <button mat-raised-button (click)="addTaxBracketRow($event)">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+</div>
