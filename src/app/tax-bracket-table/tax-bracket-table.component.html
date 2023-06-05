@@ -1,5 +1,6 @@
 <div class="tax-bracket-input-container">
     <table #table>
+        <caption>Tax Brackets</caption>
         <app-tax-bracket-entry *ngFor="let bracket of this.options.taxBrackets; let i = index" [data]="bracket"
             [index]="i" (onRemove)="removeTaxBracketRow($event)"
             (onChange)="onRowChange($event)"></app-tax-bracket-entry>
