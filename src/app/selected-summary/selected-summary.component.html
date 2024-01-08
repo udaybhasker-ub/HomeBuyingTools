@@ -6,59 +6,118 @@
   <app-summary-pie-chart [data]="data" [categories]="displayedCategories"></app-summary-pie-chart>
 </div>
 
-
 <div class="line-chart-container">
-  <app-summary-line-chart #lineChart [data]="allResults" [categories]="lineChartCategories" [cumulative]="cumulative"
-    [monthSelected]="atMonth">
-  </app-summary-line-chart>
-  <button mat-raised-button (click)="resetChart()">Reset</button>
+  <app-summary-toggle-header labelText="Sumary Chart" [allResults]="allResults" [categories]="lineChartCategories"
+    [cumulative]="true" [atMonth]="atMonth">
+  </app-summary-toggle-header>
 </div>
 
 <mat-tab-group #tabGroup>
   <mat-tab label="Breakdown">
     <div class="add-summary-group">
-      <div class="add-summary-header">Buying Vs Renting
-        <mat-icon class="chart-icon"
-          (mouseenter)="onSummaryItemHover((this.cumulative ? 'actualBuyingCost' : 'actualBuyingCostPerMonthAVG'), 'rentalCost')"
-          (mouseleave)="onSummaryItemUnhover()">insert_chart_outlined</mat-icon>
-      </div>
+      <app-summary-toggle-header labelText="Buying Vs Renting" [topLabel]="true" [allResults]="allResults"
+        [categories]="['netBuyingCost', 'rentalCost']" [cumulative]="true" [atMonth]="atMonth">
+      </app-summary-toggle-header>
 
       <div class="add-summary-items-container">
-        <div class="add-summary-item">
-          <div class="label">Actual Buying Cost
-            <mat-icon class="chart-icon"
-              (mouseenter)="onSummaryItemHover(this.cumulative ? 'actualBuyingCost' : 'actualBuyingCostPerMonthAVG')"
-              (mouseleave)="onSummaryItemUnhover()">insert_chart_outlined</mat-icon>
-          </div>
+        <div class="add-summary-item" *ngIf="cumulative">
+          <app-summary-toggle-header labelText="Total Buying Cost" icon="insert_chart_outlined"
+            [allResults]="allResults" [categories]="['totalBuyingCost']" [cumulative]="cumulative"
+            [atMonth]="atMonth">data.tot
+          </app-summary-toggle-header>
+
           <div class="values-container">
-            <div class="value" *ngIf="cumulative" [innerHtml]="data.actualBuyingCost | monthlyOrTotalPipe:cumulative">
+            <app-value-field [displayValue]="data.totalBuyingCost | monthlyOrTotalPipe:cumulative" [monthData]="data"
+              [selectedOptions]="selectedOptions" snippetProperty="totalBuyingCost" [cumulative]="cumulative">
+            </app-value-field>
+          </div>
+          <div class="dif-value-container">
+            <app-diff-param *ngIf="previousMonthData" [data]="data" [prevData]="previousMonthData"
+              [param]="'totalBuyingCost'" [showIndicator]="true" [reverseColors]="true"></app-diff-param>
+          </div>
+          <div class="info-container">(Total payment + Out of pocket cash)</div>
+        </div>
+
+        <!--<div class="add-summary-item" *ngIf="cumulative">
+          <app-summary-toggle-header labelText="Home Appreciated Value" icon="insert_chart_outlined"
+            [allResults]="allResults" [categories]="['homeValueAppreciatedAmt']" [cumulative]="cumulative"
+            [atMonth]="atMonth">
+          </app-summary-toggle-header>
+
+          <div class="values-container">
+            <div class="value" [innerHtml]="data.homeValueAppreciatedAmt | monthlyOrTotalPipe:cumulative">
             </div>
-            <div class="value" *ngIf="!cumulative"
-              [innerHtml]="data.actualBuyingCostPerMonthAVG | monthlyOrTotalPipe:cumulative:true">
-            </div>
+          </div>
+          <div class="dif-value-container">
+            <app-diff-param *ngIf="previousMonthData" [data]="data" [prevData]="previousMonthData"
+              [param]="'homeValueAppreciatedAmt'" [showIndicator]="true" [reverseColors]="true"></app-diff-param>
+          </div>
+        </div>-->
+
+        <div class="add-summary-item">
+          <app-summary-toggle-header labelText="Equity If Sold" icon="insert_chart_outlined" [allResults]="allResults"
+            [categories]="['equity']" [cumulative]="cumulative" [atMonth]="atMonth">
+          </app-summary-toggle-header>
+
+          <div class="values-container">
+            <app-value-field [displayValue]="data.equity | monthlyOrTotalPipe:cumulative" [monthData]="data"
+              [selectedOptions]="selectedOptions" snippetProperty="equity" [cumulative]="cumulative">
+            </app-value-field>
+          </div>
+          <div class="dif-value-container">
+            <app-diff-param *ngIf="previousMonthData" [data]="data" [prevData]="previousMonthData" [param]="'equity'"
+              [showIndicator]="true" [reverseColors]="true"></app-diff-param>
+          </div>
+        </div>
+        <div class="add-summary-item">
+          <app-summary-toggle-header
+            [labelText]="'Net Buying Cost at ' + (this.selectedOptions.additionalOptions.houseValueAppreciationPer /100 | percent) + ' Appreciation'"
+            icon="insert_chart_outlined" [allResults]="allResults"
+            [categories]="[this.cumulative ? 'netBuyingCost' : 'netBuyingCostPerMonthAVG']" [cumulative]="cumulative"
+            [atMonth]="atMonth">
+          </app-summary-toggle-header>
+
+          <div class="values-container">
+            <app-value-field *ngIf="cumulative"
+              [displayValue]="data.netBuyingCost | monthlyOrTotalPipe:cumulative:false:true:true" [monthData]="data"
+              [selectedOptions]="selectedOptions" snippetProperty="netBuyingCost" [cumulative]="cumulative">
+            </app-value-field>
+
+            <app-value-field *ngIf="!cumulative"
+              [displayValue]="data.netBuyingCostPerMonthAVG |  monthlyOrTotalPipe:cumulative:true:true:true"
+              [monthData]="data" [selectedOptions]="selectedOptions" snippetProperty="netBuyingCostPerMonthAVG"
+              [cumulative]="cumulative">
+            </app-value-field>
+
             <app-insight class="insight-container" [insights]="insights" [insightType]="'atMonthRentingEqualsToBuying'"
               [cumulative]="cumulative"></app-insight>
           </div>
           <div class="dif-value-container" *ngIf="cumulative">
             <app-diff-param *ngIf="previousMonthData" [data]="data" [prevData]="previousMonthData"
-              [param]="'actualBuyingCost'" [showIndicator]="true" [reverseColors]="true"></app-diff-param>
+              [param]="'netBuyingCost'" [showIndicator]="true" [reverseColors]="true"></app-diff-param>
           </div>
           <div class="dif-value-container" *ngIf="!cumulative">
             <app-diff-param *ngIf="previousMonthData" [data]="data" [prevData]="previousMonthData"
-              [param]="'actualBuyingCostPerMonthAVG'" [showIndicator]="true" [reverseColors]="true"></app-diff-param>
+              [param]="'netBuyingCostPerMonthAVG'" [showIndicator]="true" [reverseColors]="true"></app-diff-param>
           </div>
         </div>
+      </div>
+    </div>
 
+
+    <div class="add-summary-group">
+      <app-summary-toggle-header labelText="Renting + Investing Vs Buying" [topLabel]="true" [allResults]="allResults"
+        [categories]="['netInvestingToBuyingDifference']" [cumulative]="true" [atMonth]="atMonth">
+      </app-summary-toggle-header>
+      <div class="add-summary-items-container">
         <div class="add-summary-item">
-          <div class="label">Rental Cost
-            <mat-icon class="chart-icon" (mouseenter)="onSummaryItemHover('rentalCost')"
-              (mouseleave)="onSummaryItemUnhover()">insert_chart_outlined</mat-icon>
-          </div>
+          <app-summary-toggle-header labelText="Rental Cost" [allResults]="allResults" [categories]="['rentalCost']"
+            [cumulative]="cumulative" [atMonth]="atMonth">
+          </app-summary-toggle-header>
+
           <div class="values-container">
             <div class="value" [innerHtml]="data.rentalCost | monthlyOrTotalPipe:cumulative">
             </div>
-            <app-insight class="insight-container" [insights]="insights" [insightType]="'atMonthBuyingCostIsZero'"
-              [cumulative]="cumulative"></app-insight>
           </div>
           <div class="dif-value-container">
             <app-diff-param *ngIf="previousMonthData" [data]="data" [prevData]="previousMonthData"
@@ -68,82 +127,68 @@
         </div>
 
         <div class="add-summary-item">
-          <div class="label">Buying Vs Renting Savings
-            <mat-icon class="chart-icon" (mouseenter)="onSummaryItemHover('buyingVsRentingDiff')"
-              (mouseleave)="onSummaryItemUnhover()">insert_chart_outlined</mat-icon>
-          </div>
+          <app-summary-toggle-header labelText='Return on Investment at <span
+          class="val-highlite">{{selectedOptions.additionalOptions.avgReturnOnInvestmentPer/100 |
+          percent}}</span> Avg. ROI' [allResults]="allResults" [categories]="['returnOnInvestment']"
+            [cumulative]="cumulative" [atMonth]="atMonth">
+          </app-summary-toggle-header>
           <div class="values-container">
-            <div class="value" [innerHtml]="data.buyingVsRentingDiff | monthlyOrTotalPipe:cumulative:true:true"></div>
+            <app-value-field [displayValue]="data.returnOnInvestment | monthlyOrTotalPipe:cumulative" [monthData]="data"
+              [selectedOptions]="selectedOptions" snippetProperty="returnOnInvestment" [cumulative]="cumulative">
+            </app-value-field>
           </div>
           <div class="dif-value-container">
             <app-diff-param *ngIf="previousMonthData" [data]="data" [prevData]="previousMonthData"
-              [param]="'buyingVsRentingDiff'" [showIndicator]="true"></app-diff-param>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="add-summary-group">
-      <div class="add-summary-header">Buying Vs Investing
-        <mat-icon class="chart-icon" (mouseenter)="onSummaryItemHover('buyingVsRentingDiff', 'oppertunityCost')"
-          (mouseleave)="onSummaryItemUnhover()">insert_chart_outlined</mat-icon>
-      </div>
-      <div class="add-summary-items-container">
-        <div class="add-summary-item">
-          <div class="label">
-            Cash Invested
-            <mat-icon class="chart-icon" (mouseenter)="onSummaryItemHover('rentingAvailableCash')"
-              (mouseleave)="onSummaryItemUnhover()">insert_chart_outlined</mat-icon>
-          </div>
-          <div class="values-container">
-            <div class="value" [innerHtml]="data.rentingAvailableCash | monthlyOrTotalPipe:true">
-            </div>
-
-          </div>
-          <div class="dif-value-container">
-            <app-diff-param *ngIf="previousMonthData" [data]="data" [prevData]="previousMonthData"
-              [param]="'rentingAvailableCash'" [showIndicator]="true"></app-diff-param>
-          </div>
-        </div>
-        <div class="add-summary-item">
-          <div class="label">Oppertunity Cost at <span
-              class="val-highlite">{{selectedOptions.additionalOptions.avgReturnOnInvestmentPer/100 |
-              percent}}</span> Avg. ROI
-            <mat-icon class="chart-icon" (mouseenter)="onSummaryItemHover('oppertunityCost')"
-              (mouseleave)="onSummaryItemUnhover()">insert_chart_outlined</mat-icon>
-          </div>
-          <div class="values-container">
-            <div class="value" [innerHtml]="data.oppertunityCost | monthlyOrTotalPipe:cumulative">
-            </div>
-          </div>
-          <div class="dif-value-container">
-            <app-diff-param *ngIf="previousMonthData" [data]="data" [prevData]="previousMonthData"
-              [param]="'oppertunityCost'" [showIndicator]="true">
+              [param]="'returnOnInvestment'" [showIndicator]="true">
             </app-diff-param>
           </div>
         </div>
         <div class="add-summary-item">
-          <div class="label">Buying Vs Investing Savings
-            <mat-icon class="chart-icon" (mouseenter)="onSummaryItemHover('nettBuyingVsInvestingDiff')"
-              (mouseleave)="onSummaryItemUnhover()">insert_chart_outlined</mat-icon>
-          </div>
+          <app-summary-toggle-header labelText='Net Rental Cost' [allResults]="allResults"
+            [categories]="['netRentalCost']" [cumulative]="cumulative" [atMonth]="atMonth">
+          </app-summary-toggle-header>
           <div class="values-container">
-            <div class="value" [innerHtml]="data.nettBuyingVsInvestingDiff | monthlyOrTotalPipe:cumulative:true:true">
-            </div>
+            <app-value-field [displayValue]="data.netRentalCost | monthlyOrTotalPipe:cumulative:false:true:true"
+              [monthData]="data" [selectedOptions]="selectedOptions" snippetProperty="netRentalCost"
+              [cumulative]="cumulative">
+            </app-value-field>
+          </div>
+          <div class="dif-value-container">
+            <app-diff-param *ngIf="previousMonthData" [data]="data" [prevData]="previousMonthData"
+              [param]="'netRentalCost'" [showIndicator]="true">
+            </app-diff-param>
+          </div>
+        </div>
+        <div class="add-summary-item">
+          <app-summary-toggle-header labelText="Net Investing to Buying Difference " icon="insert_chart_outlined"
+            [allResults]="allResults" [categories]="['netInvestingToBuyingDifference']" [cumulative]="cumulative"
+            [atMonth]="atMonth">
+          </app-summary-toggle-header>
+
+          <div class="values-container">
+            <app-value-field
+              [displayValue]="data.netInvestingToBuyingDifference | monthlyOrTotalPipe:cumulative:true:true"
+              [monthData]="data" [selectedOptions]="selectedOptions" snippetProperty="netInvestingToBuyingDifference"
+              [cumulative]="cumulative">
+            </app-value-field>
             <app-insight class="insight-container" [insights]="insights"
               [insightType]="'atMonthBuyingIsBenificialThanInvesting'" [cumulative]="cumulative"></app-insight>
           </div>
           <div class="dif-value-container">
             <app-diff-param *ngIf="previousMonthData" [data]="data" [prevData]="previousMonthData"
-              [param]="'nettBuyingVsInvestingDiff'" [showIndicator]="true"></app-diff-param>
+              [param]="'netInvestingToBuyingDifference'" [showIndicator]="true"></app-diff-param>
           </div>
         </div>
       </div>
     </div>
 
   </mat-tab>
-
+  <mat-tab label="Calculation">
+    <ng-template matTabContent>
+      <app-breakdown-calculation [selectedOptions]="selectedOptions"
+        [data]="getCalculatedParams(atMonth, true)"></app-breakdown-calculation>
+    </ng-template>
+  </mat-tab>
   <mat-tab label="Insights">
     <ng-template matTabContent>
       <app-insights-container [selectedOptions]="selectedOptions" [allResults]="allResults" [cumulative]="cumulative"

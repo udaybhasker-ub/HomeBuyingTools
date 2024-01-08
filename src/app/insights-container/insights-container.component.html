@@ -58,6 +58,12 @@
 <div class="insight-container price-to-rent-bar-container">
   <div class="header">Loss/Gain @ Selling Year</div>
   <div class="content-main">
+    <mat-form-field>
+      <mat-label>Estimated appreciation rate</mat-label>
+      <select matNativeControl required [(ngModel)]="selectedLgApprRate" (ngModelChange)="updateLossGainChart()">
+        <option *ngFor="let option of lgApprRateOptions" [value]="option">{{ option }}</option>
+      </select>
+    </mat-form-field>
     <div class="range-indicator-container">
       <app-compact-line-chart [data]="lossGainChartData" [activeEntries]="['Yrs']" [xAxisLabel]="'Yrs'"
         [yAxisLabel]="'Amount'" [view]="[600, 295]">
@@ -136,7 +142,7 @@
 </div>
 
 <div class="insight-container price-to-rent-bar-container">
-  <div class="header">Price Vs APR Vs Break-even month</div>
+  <div class="header">APR Vs Price</div>
   <div class="content-main">
     <div class="range-indicator-container">
     </div>

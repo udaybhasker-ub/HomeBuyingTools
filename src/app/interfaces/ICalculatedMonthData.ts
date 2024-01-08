@@ -4,7 +4,7 @@ export interface ICalculatedMonthParams {
 
   downpayment: number;
   loanAmt: number;
-  buyerClosingCost: number,
+  buyerClosingCost: number;
   hoaMonthly: number;
   propertyTax: number;
   homeInsuranceCost: number;
@@ -16,18 +16,20 @@ export interface ICalculatedMonthParams {
   pmi: number;
   maintainanceCost: number;
   otherCosts: number;
-  totalCost: number;
+  totalMonthlyPayment: number;
 
   loanBalance: number;
-  homeAppreciatedAmt: number;
-  closingCost: number;
-  actualBuyingCost: number;
-  actualBuyingCostPerMonthAVG: number;
+  homeValueAppreciatedAmt: number;
+  equity: number;
+  closingCostAtSold: number;
+  totalBuyingCost: number;
+  netBuyingCost: number;
+  netBuyingCostPerMonthAVG: number;
   rentalCost: number;
-  buyingVsRentingDiff: number;
-  rentingAvailableCash: number;
-  oppertunityCost: number;
-  nettBuyingVsInvestingDiff: number;
+  cashAvailableForInvesting: number;
+  returnOnInvestment: number;
+  netRentalCost: number;
+  netInvestingToBuyingDifference: number;
 }
 
 

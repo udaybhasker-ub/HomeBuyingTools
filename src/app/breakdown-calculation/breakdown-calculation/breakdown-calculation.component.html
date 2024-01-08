@@ -1,0 +1,54 @@
+<table>
+    <tr class="calc-info">
+        <td>Home Bought Price</td>
+        <td>{{selectedOptions.price | currency}}</td>
+    </tr>
+    <tr class="calc-info">
+        <td>Home Appreciated Price</td>
+        <td>{{data.homeValueAppreciatedAmt | currency}}</td>
+    </tr>
+    <tr>
+        <td>Equity If Sold</td>
+        <td>+{{data.equity | currency}}</td>
+    </tr>
+    <tr class="calc-info">
+        <td>Total Monthly Payment</td>
+        <td>-{{data.totalMonthlyPayment| currency}}</td>
+    </tr>
+    <tr class="calc-info">
+        <td>Cash Payment</td>
+        <td>-{{(data.downpayment + data.buyerClosingCost) | currency}}</td>
+    </tr>
+    <tr>
+        <td>Total buying cost</td>
+        <td>-{{data.totalBuyingCost | currency}}</td>
+    </tr>
+    <tr>
+        <td>Closing Costs</td>
+        <td>-{{data.closingCostAtSold | currency}}</td>
+    </tr>
+    <tr>
+        <td>Tax Savings</td>
+        <td>+{{data.taxSavings | currency}}</td>
+    </tr>
+    <tr>
+        <td>Net Buying Cost</td>
+        <td>{{data.netBuyingCost | currency}}</td>
+    </tr>
+    <tr class="calc-info">
+        <td>Rental Cost</td>
+        <td>-{{data.rentalCost | currency}}</td>
+    </tr>
+    <tr class="calc-info">
+        <td>Return on Investment</td>
+        <td>+{{data.returnOnInvestment | currency}}</td>
+    </tr>
+    <tr>
+        <td>Net Rental Cost</td>
+        <td>{{(data.netRentalCost) | currency}}</td>
+    </tr>
+    <tr class="calc-highlight">
+        <td>Net Investing to Buying Difference</td>
+        <td>{{(data.netInvestingToBuyingDifference) | currency}}</td>
+    </tr>
+</table>

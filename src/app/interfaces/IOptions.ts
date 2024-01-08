@@ -8,11 +8,10 @@ export interface IOptions {
   downpaymentAmt: number;
   propertyTaxPer: number;
   homeInsRate: number;
-  homeInsAmt: number;
   pmiRate: number;
   hoaMonthly: number;
-  maintainanceCostMonthly: number;
-  buyerClosingCostsPer?: number,
+  maintainanceCostPer: number;
+  buyerclosingCostPer?: number,
   userSelectedItem?: boolean;
   selectedForComparision?: boolean;
   atMonth?: number;

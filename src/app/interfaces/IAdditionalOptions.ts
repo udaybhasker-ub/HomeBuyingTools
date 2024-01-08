@@ -2,9 +2,11 @@ export interface IAdditionalOptions {
   rentalAmt: number;
   rentalIncreasePer: number;
   houseValueAppreciationPer: number;
-  sellerClosingCostsPer: number;
+  sellerclosingCostAtSoldsPer: number;
   taxBenifitYearlyAmt: number;
   avgReturnOnInvestmentPer: number;
   refinanceAfterMonthsCount: number;
-  estimatedRefinanceApr: number;
+  estimatedRefinanceAprChangePercent: number;
+  homeAppraisalToMarketValuePer: number;
+  apply321BuyDown: boolean;
 }

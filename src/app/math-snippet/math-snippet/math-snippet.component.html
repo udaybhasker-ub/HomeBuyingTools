@@ -1,0 +1,152 @@
+<div class="math-snippet-container">
+    <div *ngIf="property === 'totalBuyingCost'">
+        <table>
+            <tr>
+                <td>Downpayment</td>
+                <td>{{monthData.downpayment | negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr>
+                <td>Buyer Closing Cost</td>
+                <td>{{monthData.buyerClosingCost | negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr>
+                <td>Monthly payments</td>
+                <td>{{monthData.totalMonthlyPayment | negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr class="total" *ngIf="!partial">
+                <td>Total buying cost</td>
+                <td>{{monthData.totalBuyingCost | negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+        </table>
+    </div>
+    <div *ngIf="property === 'equity'">
+        <table>
+            <tr>
+                <td>Home appreciated value at {{(selectedOptions.additionalOptions.houseValueAppreciationPer/100) |
+                    percent}}</td>
+                <td>{{monthData.homeValueAppreciatedAmt| currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr>
+                <td>Home price when bought</td>
+                <td>{{selectedOptions.price | negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr class="total" *ngIf="!partial">
+                <td>Equity</td>
+                <td>{{monthData.equity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+        </table>
+    </div>
+    <div *ngIf="property === 'netBuyingCost' || property === 'netBuyingCostPerMonthAVG'">
+        <table>
+            <tr>
+                <td>Equity</td>
+                <td>{{monthData.equity| currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr>
+                <td>Tax Savings</td>
+                <td>{{monthData.taxSavings| currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr>
+                <td>Downpayment</td>
+                <td>{{monthData.downpayment | negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr>
+                <td>Buyer Closing Costs</td>
+                <td>{{monthData.buyerClosingCost | negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr>
+                <td>Seller Closing Costs</td>
+                <td>{{monthData.closingCostAtSold | negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr>
+                <td>Monthly payments</td>
+                <td>{{monthData.totalMonthlyPayment | negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr class="total" *ngIf="property === 'netBuyingCost'">
+                <td>Net Buying Cost</td>
+                <td>{{monthData.netBuyingCost | negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr class="total" *ngIf="property === 'netBuyingCostPerMonthAVG'">
+                <td>Net Buying Cost (Average)</td>
+                <td>{{monthData.netBuyingCostPerMonthAVG| negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+        </table>
+    </div>
+    <div *ngIf="property === 'returnOnInvestment'">
+        <table>
+            <tr *ngIf="cumulative">
+                <td>Downpayment</td>
+                <td>{{monthData.downpayment | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr *ngIf="cumulative">
+                <td>Buyer Closing Cost</td>
+                <td>{{monthData.buyerClosingCost | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr class="secondary-field">
+                <td>Monthly payments</td>
+                <td>{{monthData.totalMonthlyPayment | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr class="secondary-field">
+                <td>Rental Cost</td>
+                <td>{{monthData.rentalCost| negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr class="secondary-field">
+                <td>Tax Savings</td>
+                <td>{{monthData.taxSavings| negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr class="total" *ngIf="!cumulative">
+                <td>Cash invested in lieu of buying for the month</td>
+                <td>{{monthData.cashAvailableForInvesting| currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr class="total" *ngIf="cumulative">
+                <td>Total Cash invested in lieu of buying</td>
+                <td>{{monthData.cashAvailableForInvesting| currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr class="total">
+                <td>{{cumulative ? 'Total' : '@ Month'}} ROI at
+                    {{selectedOptions.additionalOptions.avgReturnOnInvestmentPer / 100 | percent}}</td>
+                <td>{{monthData.returnOnInvestment|
+                    currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div *ngIf="property === 'netRentalCost'">
+        <table>
+            <tr>
+                <td>Rental Cost</td>
+                <td>{{monthData.rentalCost| currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr>
+                <td>ROI at {{selectedOptions.additionalOptions.avgReturnOnInvestmentPer / 100 | percent}}</td>
+                <td>{{monthData.returnOnInvestment| negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr class="total">
+                <td>Net Rental Cost</td>
+                <td>{{monthData.netRentalCost| currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div *ngIf="property === 'netInvestingToBuyingDifference'">
+        <table>
+            <tr *ngIf="cumulative">
+                <td>Net Buying Cost</td>
+                <td>{{monthData.netBuyingCost | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr *ngIf="!cumulative">
+                <td>Net Buying Cost (Average)</td>
+                <td>{{monthData.netBuyingCostPerMonthAVG | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr>
+                <td>Net Rental Cost</td>
+                <td>{{ monthData.netRentalCost | negativePolarity | currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+            <tr class="total">
+                <td>Nett Investing to Buying Difference</td>
+                <td>{{monthData.netInvestingToBuyingDifference |
+                    currency:'USD':'symbol':'1.0-0'}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

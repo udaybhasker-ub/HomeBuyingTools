@@ -27,7 +27,7 @@
         <td class="val-item" *ngFor="let cell of row" (click)="selectedValue(cell, $event)">
           <div class="val-item-div"
             [ngClass]="{'user-selected': cell.userSelectedItem,  'compare-selected': cell.selectedForComparision}">
-            {{ calculateDataMatrix(cell)[0].atMonth.totalCost | currency : 'USD' : 'symbol' : '1.0-0' }}
+            {{ calculateDataMatrix(cell)[0].atMonth.totalMonthlyPayment | currency : 'USD' : 'symbol' : '1.0-0' }}
           </div>
         </td>
       </tr>

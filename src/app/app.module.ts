@@ -41,10 +41,16 @@ import { CompactLineChartComponent } from './compact-line-chart/compact-line-cha
 import { AmmortizationTableComponent } from './ammortization-table/ammortization-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { CookieService } from 'ngx-cookie-service';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { TaxBracketEntryComponent } from './tax-bracket-entry/tax-bracket-entry.component';
 import { TaxBracketTableComponent } from './tax-bracket-table/tax-bracket-table.component';
 import { TaxInfoComponent } from './tax-info/tax-info.component';
+import { SummaryToggleHeaderComponent } from './summary-toggle-header/summary-toggle-header/summary-toggle-header.component';
+import { BreakdownCalculationComponent } from './breakdown-calculation/breakdown-calculation/breakdown-calculation.component';
+import { MathSnippetComponent } from './math-snippet/math-snippet/math-snippet.component';
+import { ValueFieldComponent } from './value-field/value-field/value-field.component';
+import { NegativePolarityPipe } from './pipes/negative-polarity/negative-polarity.pipe';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -72,7 +78,12 @@ import { TaxInfoComponent } from './tax-info/tax-info.component';
     AmmortizationTableComponent,
     TaxBracketEntryComponent,
     TaxBracketTableComponent,
-    TaxInfoComponent
+    TaxInfoComponent,
+    SummaryToggleHeaderComponent,
+    BreakdownCalculationComponent,
+    MathSnippetComponent,
+    ValueFieldComponent,
+    NegativePolarityPipe,
   ],
   imports: [
     BrowserModule,
@@ -95,7 +106,8 @@ import { TaxInfoComponent } from './tax-info/tax-info.component';
     MatTabsModule,
     MatSliderModule,
     MatTableModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCheckboxModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

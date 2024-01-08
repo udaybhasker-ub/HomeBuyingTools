@@ -2,7 +2,8 @@
   <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
     <th mat-header-cell *matHeaderCellDef>{{SeriesLabels[column] || column}} </th>
     <td mat-cell *matCellDef="let element">{{column === 'month' || column === 'Year' ?
-      (element[column] | number) : (column === 'apr' ? (element[column]/100 | percent) : (element[column] | currency))
+      (element[column] | number) : (column === 'apr'
+      ? (element[column]/100 | percent:'1.2-2') : (element[column] | currency))
       }}
     </td>
   </ng-container>

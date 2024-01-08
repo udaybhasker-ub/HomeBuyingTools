@@ -1,0 +1,7 @@
+<div class="value-field-container" (click)="onMouseClick($event)">
+    <div class="value" [innerHtml]="displayValue"></div>
+</div>
+<div class="popper-snippet" style="display: none;" #tooltip>
+    <ng-template #mathSnippet></ng-template>
+    <div id="arrow" data-popper-arrow></div>
+</div>

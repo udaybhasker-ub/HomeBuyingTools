@@ -1,11 +1,8 @@
-import { SummaryLineChartComponent } from './../summary-line-chart/summary-line-chart.component';
 import { Component, ElementRef, HostListener, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { IAdditionalOptions } from '../interfaces/IAdditionalOptions';
 import { ICalculatedMonthData, ICalculatedMonthParams } from '../interfaces/ICalculatedMonthData';
 import { IOptions } from '../interfaces/IOptions';
 import { SharedService } from '../services/shared/shared.service';
 import { CalculationUtils } from '../utils/CalculationUtils';
-import { ChangeDetectorRef } from '@angular/core';
 import { Iinsights } from '../interfaces/Iinsights';
 
 
@@ -24,7 +21,7 @@ export class SelectedSummaryComponent implements OnInit {
   allResults: ICalculatedMonthData[];
   insights: Iinsights;
   previousMonthData: ICalculatedMonthParams;
-  lineChartDefaultCategories: string[] = ["principal", "interest", "otherCosts", "totalCost"];
+  lineChartDefaultCategories: string[] = ["principal", "interest", "otherCosts", "totalMonthlyPayment"];
   lineChartCategories: string[] = this.lineChartDefaultCategories;
   chartOffset: any;
   chartOriginalWidth: any;
@@ -70,9 +67,9 @@ export class SelectedSummaryComponent implements OnInit {
     this.prepareInsights();
   }
 
-  getCalculatedParams(atMonth: number): ICalculatedMonthParams {
+  getCalculatedParams(atMonth: number, forceCumulative: boolean = false): ICalculatedMonthParams {
     const result = this.allResults[atMonth - 1];
-    return result && (this.cumulative ? result.cumulative : result.atMonth);
+    return result && ((this.cumulative || forceCumulative) ? result.cumulative : result.atMonth);
   }
 
   @HostListener('window:resize')
@@ -82,8 +79,8 @@ export class SelectedSummaryComponent implements OnInit {
 
   @HostListener('window:load')
   onLoad() {
-    this.chartOffset = this.lineChart.nativeElement.offsetTop;
-    this.chartOriginalWidth = this.lineChart.nativeElement.clientWidth;
+    this.chartOffset = this.lineChart?.nativeElement.offsetTop;
+    this.chartOriginalWidth = this.lineChart?.nativeElement.clientWidth;
 
     this.onScroll();
   }
@@ -93,10 +90,10 @@ export class SelectedSummaryComponent implements OnInit {
     var bodyScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 
     if (bodyScrollTop > this.chartOffset + 900) {
-      this.lineChart.nativeElement.classList.add('fixed');
+      this.lineChart?.nativeElement.classList.add('fixed');
       //this.lineChart.nativeElement.setAttribute("style", "width: " + this.chartOriginalWidth + "px; top: -18px");
     } else {
-      this.lineChart.nativeElement.classList.remove('fixed');
+      this.lineChart?.nativeElement.classList.remove('fixed');
       //this.lineChartCategories = [...this.lineChartDefaultCategories];
     }
   }

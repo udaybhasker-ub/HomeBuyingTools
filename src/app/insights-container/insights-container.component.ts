@@ -1,4 +1,4 @@
-import { ICalculatedMonthData } from './../interfaces/ICalculatedMonthData';
+import { ICalculatedMonthData, ICalculatedMonthParams } from './../interfaces/ICalculatedMonthData';
 import { Component, Input, OnInit } from '@angular/core';
 import { IOptions } from '../interfaces/IOptions';
 import { CalculationUtils } from '../utils/CalculationUtils';
@@ -28,6 +28,8 @@ export class InsightsContainerComponent implements OnInit {
   dpAvgMonthCountDiff: number;
   priceInsightChartData: IInsightChartData;
   pricePercentPerAprPercent: number;
+  lgApprRateOptions: number[] = Array.from({ length: 21 }, (_, i) => i - 10);
+  selectedLgApprRate: number = 5;
 
   constructor() { }
 
@@ -51,57 +53,128 @@ export class InsightsContainerComponent implements OnInit {
     }), '$');
     this.aprInsightChartData = this.prepareInsightData('apr', 0.5, undefined, '%', true);
     this.priceInsightChartData = this.prepareInsightData('price', 10000, undefined, '$', true);
-    this.lossGainChartData = {
-      chartName: "Yr Vs Loss/Gain",
-      entries: this.getLossGainChartEntries(),
-      selectedValue: Math.round(this.insights.purchaseVsRentBreakEvenMonth / 12).toString()
-    };;
-
-    this.calculateRatio();
+    this.updateLossGainChart();
+    //this.calculateRatio();
+    this.updateAprVsPriceInsight();
   }
 
-  getLossGainChartEntries() {
-    const results = new Map<number, ICalculatedMonthData[]>();
-    [2, 3, 4, 5, 6, 7].forEach((appreciationRate) => {
+  updateLossGainChart() {
+    this.lossGainChartData = {
+      chartName: "Yr Vs Loss/Gain",
+      entries: this.getLossGainChartEntries(this.selectedLgApprRate),
+      selectedValue: Math.round(this.insights.purchaseVsRentBreakEvenMonth / 12).toString()
+    };
+  }
+
+  updateAprVsPriceInsight() {
+    const testOptions = {
+      ...this.selectedOptions,
+      apr: this.selectedOptions.apr - 1,
+      additionalOptions: {
+        ...this.selectedOptions.additionalOptions,
+        avgReturnOnInvestmentPer: 0,
+        refinanceAfterMonthsCount: 0,
+        estimatedRefinanceAprChangePercent: 0,
+        returnOnInvestment: 0
+      }
+    };
+    const calcData: ICalculatedMonthData[] =
+      CalculationUtils.calculateDataMatrix(testOptions, this.selectedOptions.loanLength * 12);
+    const targetData = calcData[(this.selectedOptions.loanLength * 12) - 1].cumulative;
+    const equivalentPriceData: { data: ICalculatedMonthParams, price: number } = this.findEquivalentPrice(this.selectedOptions.price, targetData, 'totalMonthlyPayment');
+    this.pricePercentPerAprPercent = ((this.selectedOptions.price - equivalentPriceData.price) / this.selectedOptions.price) * 100;
+  }
+
+  private findEquivalentPrice(targetPrice: number, targetData: ICalculatedMonthParams, comparisionField: keyof ICalculatedMonthParams): { data: ICalculatedMonthParams, price: number } {
+
+    const targetComparisionValue = targetData[comparisionField];
+    let low = 0;
+    let high = targetPrice;
+    const tolerance = 100;
+
+    while (low <= high) {
+      const mid = (low + high) / 2;
+      const testOptions = {
+        ...this.selectedOptions,
+        price: mid,
+        additionalOptions: {
+          ...this.selectedOptions.additionalOptions,
+          avgReturnOnInvestmentPer: 0,
+          refinanceAfterMonthsCount: 0,
+          estimatedRefinanceAprChangePercent: 0,
+          returnOnInvestment: 0
+        }
+      };
+      const calcData: ICalculatedMonthData[] =
+        CalculationUtils.calculateDataMatrix(testOptions, this.selectedOptions.loanLength * 12);
+      const currentData = calcData[(this.selectedOptions.loanLength * 12) - 1].cumulative;
+      const currentValue = currentData[comparisionField];
+      if (Math.abs(currentValue - targetComparisionValue) < tolerance) {
+        return { data: currentData, price: mid };
+      } else if (currentValue < targetComparisionValue) {
+        low = mid;
+      } else {
+        high = mid;
+      }
+    }
+
+    return null; // If no equivalent loan amount is found
+  }
+
+
+  getLossGainChartEntries(selectedApprRate) {
+    const results = new Map<string, ICalculatedMonthData[]>();
+    const apprRoiMap = new Map<string, Map<number, number>>();
+    const defaultRoi = this.selectedOptions.additionalOptions.avgReturnOnInvestmentPer;
+    apprRoiMap.set(selectedApprRate + '% Home Appr. - ' + defaultRoi + '% ROI', new Map<number, number>().set(selectedApprRate, defaultRoi));
+
+    if (this.selectedOptions.additionalOptions.avgReturnOnInvestmentPer != 0) {
+      apprRoiMap.set(selectedApprRate + '% Home Appr. - ' + 0 + '% ROI', new Map<number, number>().set(selectedApprRate, 0));
+    }
+    apprRoiMap.forEach((map, key) => {
+      const [houseValueAppreciationPer, avgReturnOnInvestmentPer] = map.entries().next().value;
       const selOptions = {
         ...this.selectedOptions, ...{
           additionalOptions: {
             ...this.selectedOptions.additionalOptions, ...{
-              houseValueAppreciationPer: appreciationRate
+              houseValueAppreciationPer,
+              avgReturnOnInvestmentPer
             }
           }
         }
       }
-      const perAppr: ICalculatedMonthData[] = CalculationUtils.calculateDataMatrix(selOptions, selOptions.loanLength * 12);
-      results.set(appreciationRate, perAppr);
+      const perAppr: ICalculatedMonthData[] =
+        CalculationUtils.calculateDataMatrix(selOptions, selOptions.loanLength * 12);
+      results.set(key, perAppr);
     });
     let entries: ILineChartEntry[] = [];
-    results.forEach((value: ICalculatedMonthData[], key: number) => {
-      const series: IChartSeriesEntry[] = [];
+    results.forEach((value: ICalculatedMonthData[], key: string) => {
+      const series1: IChartSeriesEntry[] = [];
+
       value.forEach((month: ICalculatedMonthData) => {
         const yr = month.atMonth.month % 12;
-        if (yr === 0 && month.atMonth.month < this.insights.purchaseVsRentBreakEvenMonth + 24) {
-          const seriesEntry: IChartSeriesEntry = {
+        if (yr === 0 && month.atMonth.month < this.selectedOptions.loanLength * 12) {
+          const seriesEntry2: IChartSeriesEntry = {
             name: (month.atMonth.month / 12).toString(),
-            value: month.cumulative.buyingVsRentingDiff
+            value: -month.cumulative.netInvestingToBuyingDifference
           };
-          series.push(seriesEntry);
+          series1.push(seriesEntry2);
         }
       });
-      const entry: ILineChartEntry = {
-        name: key + "% Appr.",
-        series: series
+      const entry1: ILineChartEntry = {
+        name: 'Net difference with ' + key,
+        series: series1
       };
-      entries.push(entry);
+      entries.push(entry1);
     });
     return entries;
   }
 
-  calculateRatio() {
+  /*calculateRatio() {
     const monthsPerAPR = this.aprInsightChartData.step / this.aprInsightChartData.avgDeltaDiff;
     const monthsPerCostPer = ((this.priceInsightChartData.step / this.selectedOptions.price) * 100) / this.priceInsightChartData.avgDeltaDiff;
     this.pricePercentPerAprPercent = monthsPerCostPer / monthsPerAPR;
-  }
+  }*/
 
   prepareInsightData(param: string, step: number, getKV?: any, labelAppend: string = '', desc: boolean = false): IInsightChartData {
     const insightDataMatrix = CalculationUtils.getInsightMatrix(this.selectedOptions, param, step, desc);

@@ -21,23 +21,24 @@ export class DataFormComponent implements OnInit {
     apr: 6,
     downpaymentPer: 10.0,
     downpaymentAmt: 0,
-    propertyTaxPer: 2.1,
+    propertyTaxPer: 2.4,
     homeInsRate: 0.63,
-    homeInsAmt: 3150.00,
     pmiRate: 0.75,
     hoaMonthly: 150,
-    maintainanceCostMonthly: 250,
-    buyerClosingCostsPer: 3.5,
+    maintainanceCostPer: 0.6,
+    buyerclosingCostPer: 3.5,
   });
   readonly defaultAdditionalOptions: IAdditionalOptions = {
-    rentalAmt: 2400,
+    rentalAmt: 3000,
     rentalIncreasePer: 3,
-    houseValueAppreciationPer: 4,
-    sellerClosingCostsPer: 8,
-    taxBenifitYearlyAmt: 2500 + 5000,
+    houseValueAppreciationPer: 5,
+    sellerclosingCostAtSoldsPer: 8,
+    taxBenifitYearlyAmt: 3000,
     avgReturnOnInvestmentPer: 7.0,
     refinanceAfterMonthsCount: 24,
-    estimatedRefinanceApr: 5,
+    estimatedRefinanceAprChangePercent: 1,
+    homeAppraisalToMarketValuePer: 85,
+    apply321BuyDown: false,
   };
   readonly defaultTaxOptions: TaxOptions = {
     fitTaxableIncome: 100000,
@@ -71,9 +72,7 @@ export class DataFormComponent implements OnInit {
   taxOptionsForm: FormGroup;
   taxCalculated: TaxCalculated;
 
-  constructor(private sharedService: SharedService, private appCookieService: AppCookieService) {
-
-  }
+  constructor(private sharedService: SharedService, private appCookieService: AppCookieService) { }
 
   ngOnInit(): void {
     try {
@@ -115,8 +114,6 @@ export class DataFormComponent implements OnInit {
       let val: number = this.options[key];
       if (key === "downpaymentAmt") {
         val = this.options?.downpaymentAmt || this.options.price * (this.options.downpaymentPer / 100);
-      } else if (key === "homeInsAmt") {
-        val = this.options?.homeInsAmt || this.options.price * (this.options.homeInsRate / 100);
       }
       formGroupOptions[key] = new FormControl(val);
     });
@@ -152,6 +149,10 @@ export class DataFormComponent implements OnInit {
   }
 
   initAddOptionsChangeEvents() {
+    this.additionalEntryForm.get('apply321BuyDown')?.valueChanges.pipe(debounceTime(500)).subscribe((change: any) => {
+      this.setAdditionalEntryFormValue('refinanceAfterMonthsCount',
+        change ? 0 : this.defaultAdditionalOptions.refinanceAfterMonthsCount);
+    });
     this.additionalEntryForm.valueChanges.pipe(debounceTime(500)).subscribe(change => {
       this.onSubmit();
     });
@@ -160,9 +161,6 @@ export class DataFormComponent implements OnInit {
     this.entryForm.get('price')?.valueChanges.pipe(debounceTime(500)).subscribe((change: any) => {
       let val = change * (this.options.downpaymentPer / 100);
       this.setEntryFormValue('downpaymentAmt', val);
-
-      val = change * (this.options.homeInsRate / 100);
-      this.setEntryFormValue('homeInsAmt', val);
     });
     this.entryForm.get('downpaymentPer')?.valueChanges.pipe(debounceTime(500)).subscribe((change: any) => {
       const val = this.options.price * (parseFloat(change) / 100);
@@ -171,14 +169,6 @@ export class DataFormComponent implements OnInit {
     this.entryForm.get('downpaymentAmt')?.valueChanges.pipe(debounceTime(500)).subscribe((change: any) => {
       const val = (parseFloat(change) / this.options.price) * 100;
       this.setEntryFormValue('downpaymentPer', val.toFixed(2));
-    });
-    this.entryForm.get('homeInsRate')?.valueChanges.pipe(debounceTime(500)).subscribe((change: any) => {
-      let val: number = this.options.price * (parseFloat(change) / 100);
-      this.setEntryFormValue('homeInsAmt', Math.trunc(val));
-    });
-    this.entryForm.get('homeInsAmt')?.valueChanges.pipe(debounceTime(500)).subscribe((change: any) => {
-      let val: number = (parseFloat(change) / this.options.price) * 100;
-      this.setEntryFormValue('homeInsRate', val.toFixed(2));
     });
     this.entryForm.valueChanges.pipe(debounceTime(500)).subscribe((change) => {
       this.onSubmit();
@@ -203,7 +193,7 @@ export class DataFormComponent implements OnInit {
     this.options.taxOptions = this.taxOptions;
     this.options.additionalOptions = this.additionalOptions;
     this.taxCalculated = CalculationUtils.calculateFederalTax(this.options, this.taxOptions, 12);
-    this.additionalOptions.taxBenifitYearlyAmt = Math.round(this.taxCalculated.taxBenifits);
+    this.additionalOptions.taxBenifitYearlyAmt = Math.round(this.taxCalculated.taxBenefits);
 
     this.additionalEntryForm.get('taxBenifitYearlyAmt')?.setValue(this.additionalOptions.taxBenifitYearlyAmt, { emitEvent: false });
     this.sharedService.optionsUpdated.next(this.options);
@@ -214,6 +204,14 @@ export class DataFormComponent implements OnInit {
 
   setEntryFormValue(arg: string, val: any) {
     const formField = this.entryForm.get(arg);
+    formField.setValue(val, { emitEvent: false });
+    formField.markAsPristine();
+    setTimeout(() => {
+      formField.markAsDirty();
+    }, 100);
+  }
+  setAdditionalEntryFormValue(arg: string, val: any) {
+    const formField = this.additionalEntryForm.get(arg);
     formField.setValue(val, { emitEvent: false });
     formField.markAsPristine();
     setTimeout(() => {

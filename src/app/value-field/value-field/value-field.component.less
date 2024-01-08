@@ -1,0 +1,57 @@
+.value {
+    font-size: 19px;
+    min-width: 220px;
+
+    @media screen and (max-width: 768px) {
+        min-width: 0;
+    }
+}
+
+.popper-snippet {
+    font-size: 0.9em;
+
+    background-color: white;
+    width: max-content;
+    font-weight: initial;
+    z-index: 5;
+    padding: 8px;
+    border: solid 1px gray;
+    border-radius: 3px;
+    box-shadow: 2px 2px 100px -10px rgba(0, 0, 0, 0.22);
+
+
+    #arrow,
+    #arrow::before {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        background: inherit;
+    }
+
+    #arrow {
+        visibility: hidden;
+    }
+
+    #arrow::before {
+        visibility: visible;
+        content: '';
+        transform: rotate(45deg);
+    }
+
+    &[data-popper-placement^='top']>#arrow {
+        bottom: -4px;
+    }
+
+    &[data-popper-placement^='bottom']>#arrow {
+        top: -4px;
+    }
+
+    &[data-popper-placement^='left']>#arrow {
+        right: -4px;
+    }
+
+    &[data-popper-placement^='right']>#arrow {
+        left: -4px;
+    }
+
+}

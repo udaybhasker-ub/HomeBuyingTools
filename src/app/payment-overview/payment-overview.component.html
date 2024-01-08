@@ -37,7 +37,8 @@
   <mat-tab label="Camparision">
     <div class="compare-cards-container tab-panel-container">
       <app-summary-card *ngFor="let data of comparedItems; let i = index" [selectedOptions]="data" [atMonth]="atMonth"
-        [cumulative]="cumulative" [diffData]="diffTableData[i]" [detailsCard]="true"
+        [cumulative]="cumulative" [diffData]="diffTableData[i]" [detailsCard]="true" [forComparision]="true"
+        (onPinnedForComparision)="onPinnedForComparision($event)"
         [lastItemUserSelected]="comparedItems.length === 1 && data.userSelectedItem" class="summary-details"
         [ngClass]="{'selected-option' : data.userSelectedItem}">
       </app-summary-card>

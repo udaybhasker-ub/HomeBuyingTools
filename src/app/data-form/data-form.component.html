@@ -51,12 +51,6 @@
         <span matSuffix>%</span>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Home Insurance</mat-label>
-        <input matInput #input type="number" ngDefaultControl formControlName="homeInsAmt" name="homeInsAmt" min="0"
-          placeholder="0" step="100" />
-        <span matSuffix>$/Yr</span>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
         <mat-label>PMI Rate</mat-label>
         <input matInput #input type="number" ngDefaultControl formControlName="pmiRate" name="pmiRate" min="0" max="10"
           step="0.1" placeholder="0.75" />
@@ -69,15 +63,15 @@
         <span matSuffix>$</span>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Maintainance(Monthly)</mat-label>
-        <input matInput #input type="number" ngDefaultControl formControlName="maintainanceCostMonthly"
-          name="maintainanceCostMonthly" min="0" max="1000" step="50" placeholder="250" />
-        <span matSuffix>$</span>
+        <mat-label>Maintainance Cost %</mat-label>
+        <input matInput #input type="number" ngDefaultControl formControlName="maintainanceCostPer"
+          name="maintainanceCostPer" min="0" max="5" step="0.25" placeholder="1" />
+        <span matSuffix>%</span>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Buyer Closing Costs</mat-label>
-        <input matInput #input type="number" ngDefaultControl formControlName="buyerClosingCostsPer"
-          name="buyerClosingCostsPer" min="0" step="0.5" placeholder="0" />
+        <input matInput #input type="number" ngDefaultControl formControlName="buyerclosingCostPer"
+          name="buyerclosingCostPer" min="0" step="0.5" placeholder="0" />
         <span matSuffix>%</span>
       </mat-form-field>
       <!--<p>
@@ -119,9 +113,9 @@
         <span matSuffix>%</span>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Seller Closing Cost</mat-label>
-        <input matInput #input type="number" ngDefaultControl formControlName="sellerClosingCostsPer"
-          name="sellerClosingCostsPer" min="0" max="15" step="1" placeholder="0" />
+        <mat-label>Seller Closing Costs</mat-label>
+        <input matInput #input type="number" ngDefaultControl formControlName="sellerclosingCostAtSoldsPer"
+          name="sellerclosingCostAtSoldsPer" min="0" max="15" step="1" placeholder="0" />
         <span matSuffix>%</span>
       </mat-form-field>
       <mat-form-field appearance="fill">
@@ -143,10 +137,15 @@
         <span matSuffix></span>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Estimated Refinanced APR</mat-label>
-        <input matInput #input type="number" ngDefaultControl formControlName="estimatedRefinanceApr"
-          name="estimatedRefinanceApr" min="0" step="0.5" max="10" />
+        <mat-label>Refinanced APR decrease %</mat-label>
+        <input matInput #input type="number" ngDefaultControl formControlName="estimatedRefinanceAprChangePercent"
+          name="estimatedRefinanceAprChangePercent" min="0" step="5" max="5" placeholder="1" />
         <span matSuffix></span>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Apply 3-2-1 Buydown</mat-label>
+        <mat-checkbox matInput ngDefaultControl formControlName="apply321BuyDown"></mat-checkbox>
+        <input matInput hidden=true>
       </mat-form-field>
       <!--<p>
       <button class="submit-btn" mat-raised-button color="primary" type="submit">Update</button>

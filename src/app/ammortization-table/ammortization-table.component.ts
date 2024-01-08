@@ -19,7 +19,7 @@ export class AmmortizationTableComponent implements OnInit {
   @Input() results: ICalculatedMonthData[];
 
   dataSource = [];
-  columnsToDisplay: string[] = ['Year', 'month', 'principal', 'apr', 'interest', 'emi', 'otherCosts', 'totalCost', 'loanBalance'];
+  columnsToDisplay: string[] = ['Year', 'month', 'principal', 'apr', 'interest', 'emi', 'otherCosts', 'totalMonthlyPayment', 'loanBalance'];
   columnsToDisplayWithExpand: string[] = [...this.columnsToDisplay, 'expand'];
   expandedElement;
   SeriesLabels = SeriesLabels;

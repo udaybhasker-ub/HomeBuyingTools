@@ -15,12 +15,11 @@ export type TaxCalculated = {
     standardDeductionAmount: number;
     stateTaxAmount: number;
     mortgageInterestDeduction: number;
-    mortgageInsuranceDeduction: number;
     propertyTaxDeduction: number;
     homeDeductionTotal: number;
     saltTaxAmount: number;
     taxableIncome: number;
     taxesBeforeCredits: number;
     netFederalTax: number;
-    taxBenifits: number;
+    taxBenefits: number;
 }

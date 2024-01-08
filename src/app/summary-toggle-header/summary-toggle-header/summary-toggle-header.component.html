@@ -1,0 +1,14 @@
+<mat-expansion-panel class="expanded-header" (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+    hideToggle>
+    <mat-expansion-panel-header>
+        <mat-panel-title class="label" [class.top-label]="topLabel">
+            <div [innerHTML]="labelText"></div>
+            <mat-icon class="chart-icon">insert_chart_outlined</mat-icon>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="line-chart-container">
+        <app-summary-line-chart #lineChart [data]="allResults" [categories]="categories" [cumulative]="cumulative"
+            [monthSelected]="atMonth">
+        </app-summary-line-chart>
+    </div>
+</mat-expansion-panel>

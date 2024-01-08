@@ -50,54 +50,40 @@ export class PaymentOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sharedService.addToCompare.subscribe((result: IOptions) => {
-      if (!Object.keys(result).length) return;
+    this.sharedService.addToCompare.subscribe((options: IOptions) => {
+      if (!Object.keys(options).length) return;
 
-      const existed = this.comparedItems.find(item => item.equal(result));
+      const existed = this.comparedItems.find(item => item.equal(options));
 
-      if (existed && !result.userSelectedItem)
+      if (existed && !options.userSelectedItem)
         return;
 
-      if (result.userSelectedItem) {
-        this.comparedItems = this.comparedItems.filter(item => !item.equal(result) && !item.userSelectedItem);
+      if (options.userSelectedItem) {
+        this.comparedItems = this.comparedItems.filter(item => !item.equal(options) && !item.userSelectedItem);
         this.userSelectedOptions = [];
-        this.userSelectedOptions.push(result);
-        this.allCalculatedData = CalculationUtils.calculateDataMatrix(result, result.loanLength * 12);
+        this.userSelectedOptions.push(options);
+        this.allCalculatedData = CalculationUtils.calculateDataMatrix(options, options.loanLength * 12);
       }
 
       if (this.comparedItems.length > 2) {
         let selected = this.comparedItems.filter(item => item.userSelectedItem);
         let nonSelectedItems = this.comparedItems.filter(item => !item.userSelectedItem);
-        nonSelectedItems.sort(this.sortByTotalCost);
+        nonSelectedItems.sort(this.sortByMonthlyPaymentAmount);
         const removedItem = nonSelectedItems.pop();
         this.sharedService.removeFromCompare.next(removedItem);
-        this.comparedItems = [result, ...selected, ...nonSelectedItems];
+        this.comparedItems = [options, ...selected, ...nonSelectedItems];
       } else {
-        this.comparedItems.push(result);
+        this.comparedItems.push(options);
       }
 
-      this.comparedItems.sort(this.sortByTotalCost);
+      this.comparedItems.sort(this.sortByMonthlyPaymentAmount);
       this.createDiffTables();
       this.sharedService.updateSelections.next(this.comparedItems);
-      this.switchTab(result.userSelectedItem ? 0 : 1);
+      this.switchTab(options.userSelectedItem ? 0 : 1);
     });
 
     this.sharedService.removeFromCompare.subscribe((result: IOptions) => {
-      if (!Object.keys(result).length) return;
-
-      if (this.comparedItems.length === 1 && this.comparedItems[0].userSelectedItem)
-        return;
-
-      const existedIndex = this.comparedItems.findIndex(item => item.equal(result));
-      if (existedIndex > -1) {
-        this.comparedItems.splice(existedIndex, 1);
-        this.createDiffTables();
-      }
-      if (this.comparedItems.length < 1 && this.userSelectedOptions) {
-        //this.resultData.push(this.userSelectedOptions);
-        this.sharedService.addToCompare.next(this.userSelectedOptions[0]);
-      }
-      this.sharedService.updateSelections.next(this.comparedItems);
+      this.onComparisionItemRemoved(result);
     });
 
     this.sharedService.updateNavOptions.subscribe((result: any) => {
@@ -113,6 +99,25 @@ export class PaymentOverviewComponent implements OnInit {
       this.selectedAtOption = result.cumulative ? 'Until' : 'At';
       this.atMonthUpdate.next(result.atMonth);
     });
+
+  }
+
+  private onComparisionItemRemoved(options: IOptions, forceRemoveSelected = false) {
+    if (!Object.keys(options).length) return;
+
+    if (this.comparedItems.length === 1 && this.comparedItems[0].userSelectedItem && !forceRemoveSelected)
+      return;
+
+    const existedIndex = this.comparedItems.findIndex(item => item.equal(options));
+    if (existedIndex > -1) {
+      this.comparedItems.splice(existedIndex, 1);
+      this.createDiffTables();
+    }
+    if (this.comparedItems.length < 1 && this.userSelectedOptions && !forceRemoveSelected) {
+      //this.resultData.push(this.userSelectedOptions);
+      this.sharedService.addToCompare.next(this.userSelectedOptions[0]);
+    }
+    this.sharedService.updateSelections.next(this.comparedItems);
 
   }
 
@@ -211,11 +216,22 @@ export class PaymentOverviewComponent implements OnInit {
     return result;
   }
 
-  sortByTotalCost(n1: IOptions, n2: IOptions) {
-    return CalculationUtils.calculateDataMatrix(n1)[0].atMonth.totalCost - CalculationUtils.calculateDataMatrix(n2)[0].atMonth.totalCost
+  sortByMonthlyPaymentAmount(n1: IOptions, n2: IOptions) {
+    return CalculationUtils.calculateDataMatrix(n1)[0].atMonth.totalMonthlyPayment - CalculationUtils.calculateDataMatrix(n2)[0].atMonth.totalMonthlyPayment
   }
 
   onInputFocus(event: Event) {
     (event.target as HTMLInputElement).select();
+  }
+
+  onPinnedForComparision(options: IOptions) {
+    this.onComparisionItemRemoved(options, true);
+    this.sharedService.addToCompare.next({
+      ...options,
+      ...{
+        userSelectedItem: false,
+        selectedForComparision: true
+      }
+    } as IOptions);
   }
 }

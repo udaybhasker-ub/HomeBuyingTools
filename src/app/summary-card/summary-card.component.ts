@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ICalculatedMonthData, ICalculatedMonthParams } from '../interfaces/ICalculatedMonthData';
 import { IOptions } from '../interfaces/IOptions';
 import { SharedService } from '../services/shared/shared.service';
@@ -18,9 +18,12 @@ export class SummaryCardComponent implements OnInit {
   @Input() lastItemUserSelected: boolean = false;
   @Input() cumulative: boolean = false;
   @Input() atMonth: number = 1;
+  @Input() forComparision: boolean = false;
+  @Output() onPinnedForComparision = new EventEmitter<IOptions>();
 
   allResults: ICalculatedMonthData[];
   result: ICalculatedMonthParams;
+  pinned = false;
 
   constructor(private sharedService: SharedService) {
 
@@ -62,5 +65,12 @@ export class SummaryCardComponent implements OnInit {
 
   setDefault(itemOptions: IOptions) {
     this.sharedService.defaultOptionsUpdated.next(itemOptions);
+  }
+
+  togglePin(event: Event) {
+    this.pinned = !this.pinned;
+    if (this.pinned) {
+      this.onPinnedForComparision.next(this.selectedOptions);
+    }
   }
 }

@@ -9,12 +9,19 @@
       <mat-icon>add</mat-icon>
     </button>
 
-    <button *ngIf="selectedOptions.selectedForComparision && !lastItemUserSelected" (click)="removeFromCompare()"
-      class="compare-btn" [ngClass]="{'remove-btn' : detailsCard}" mat-mini-fab color="basic">
+    <button *ngIf="selectedOptions.selectedForComparision && selectedOptions.userSelectedItem && forComparision"
+      (click)="togglePin($event)" class="compare-btn" [ngClass]="{'remove-btn' : detailsCard}" mat-mini-fab
+      color="basic">
+      <mat-icon>push_pin</mat-icon>
+    </button>
+    <button *ngIf="selectedOptions.selectedForComparision && !selectedOptions.userSelectedItem && !lastItemUserSelected"
+      (click)="removeFromCompare()" class="compare-btn" [ngClass]="{'remove-btn' : detailsCard}" mat-mini-fab
+      color="basic">
       <mat-icon>remove</mat-icon>
     </button>
   </div>
 
+  <div *ngIf="detailsCard" class="summary-price-snippet">{{ selectedOptions.price | currency }}</div>
 
   <table [ngClass]="{'user-selected-option' : selectedOptions.userSelectedItem}">
     <tr class="header-row">
@@ -27,7 +34,7 @@
       </td>
     </tr>
     <tr class="detail-val-tr">
-      <td>Buyer Closing Cost</td>
+      <td>Buyer Closing Costs</td>
       <td class="snippet-val-td">-{{ result.buyerClosingCost| currency }}</td>
     </tr>
     <tr class="detail-val-tr">
@@ -51,7 +58,7 @@
     </tr>
     <tr class="header-row">
       <td>Interest
-        <span class="highlite-val">{{detailsCard ? (selectedOptions.apr/100 | percent: '1.2-2') + ' APR' : ''}}</span>
+        <span class="highlite-val">{{detailsCard ? (result.apr/100 | percent: '1.2-2') + ' APR' : ''}}</span>
       </td>
       <td class="snippet-val-td">-{{ result.interest | currency }}</td>
     </tr>
@@ -132,11 +139,7 @@
           {{selectedOptions.atMonth}} month</span>)
       </td>
       <td class="snippet-val-td total-val">
-        <div>{{ result.totalCost | currency }}</div>
-        <div class="total-val-sec">*{{ (result.totalCost - ((selectedOptions.additionalOptions.taxBenifitYearlyAmt/12) *
-          (cumulative?
-          selectedOptions.atMonth : 1)))
-          | currency }}</div>
+        <div>{{ result.totalMonthlyPayment | currency }}</div>
       </td>
     </tr>
     <tr *ngIf="!detailsCard">

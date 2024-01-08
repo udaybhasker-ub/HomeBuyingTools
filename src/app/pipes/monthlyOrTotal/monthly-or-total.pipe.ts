@@ -6,12 +6,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class MonthlyOrTotalPipe implements PipeTransform {
 
-  transform(value: number, cumulative: boolean, average: boolean = false, underline: boolean = false): string {
+  transform(value: number, cumulative: boolean, average: boolean = false, underline: boolean = false, reversePolarity: boolean = false): string {
     const currencyPipe = new CurrencyPipe("en-US");
 
     let underlineClass = "val-primary ";
     if (underline) {
-      if (value > 0) {
+      if ((!reversePolarity && value > 0) || (reversePolarity && value < 0)) {
         underlineClass += "val-primary-positive";
       } else {
         underlineClass += "val-primary-negative";

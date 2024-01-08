@@ -132,8 +132,8 @@ export class DpVsAprDataTableComponent implements OnInit {
     const path = event.composedPath();
     if (!path) return;
     let compareBtn = path.find((e: HTMLElement) => {
-      return e.classList && 
-      (e.classList.contains("compare-btn") || e.classList.contains("compare-footer-btn"));
+      return e.classList &&
+        (e.classList.contains("compare-btn") || e.classList.contains("compare-footer-btn"));
     });
     let elementRefInPath = path.find(e => e === this.tooltip.element.nativeElement);
     if (compareBtn || !elementRefInPath) {
